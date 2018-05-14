@@ -51,5 +51,8 @@ for (var i = 0, n = aNodes.length; i < n; i += 1) {
         }
     }
 }
-
+return {
+    result: 0,
+    response: oResp
+};
 return oResp;

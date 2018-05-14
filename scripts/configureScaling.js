@@ -7,7 +7,7 @@ function isPrimary(nodeId) {
     var cmd;
   
     cmd = [
-        "curl -fsSL \"https://raw.githubusercontent.com/dzotic9/lets-encrypt/master/test/mongo/isMaster.sh\" -o /tmp/checkMaster.sh", 
+        "curl -fsSL \"https://raw.githubusercontent.com/dzotic9/mongo-replic/master/scripts/isMaster.sh\" -o /tmp/checkMaster.sh", 
         "/bin/bash /tmp/checkMaster.sh | grep ismaster | cut -c 15- | rev | cut -c 2- | rev"
     ];
   java.lang.System.out.println("DEBUG - in isPrimary - nodeId -> " + nodeId);
@@ -27,7 +27,7 @@ function isPrimary(nodeId) {
 
 function addSlave(nodeId) {
     var cmd = [
-            "curl -fsSL \"https://github.com/dzotic9/lets-encrypt/raw/master/test/mongo/addSlave.sh\" -o /tmp/addSlave.sh",
+            "curl -fsSL \"https://raw.githubusercontent.com/dzotic9/mongo-replic/master/scripts/addSlave.sh\" -o /tmp/addSlave.sh",
             "/bin/bash /tmp/addSlave.sh ${nodes.nosqldb.last.address}"
         ];
     

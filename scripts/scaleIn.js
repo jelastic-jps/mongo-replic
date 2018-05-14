@@ -23,18 +23,15 @@ for (var i = 0, n = aNodes.length; i < n; i += 1) {
 
 
 aReplicaNodes = getReplicaAddresses();
-java.lang.System.out.println("DEBUG - aNoSQLAddresses -> " + aNoSQLAddresses);
+
 aReplicaNodes = aReplicaNodes.split("\",");
 
 for (var i = 0, n = aReplicaNodes.length; i < n; i += 1) {
     //if (aNodes[i].nodeGroup == "nosqldb") {
-    java.lang.System.out.println("DEBUG - aReplicaNodes[i] -> " + aReplicaNodes[i]);
     
     if (aReplicaNodes[i] == sArbiterIp) {
         delete aReplicaNodes[i];
     }
-
-    java.lang.System.out.println("DEBUG - aNoSQLAddresses.indexOf(aReplicaNodes[i]) -> " + aNoSQLAddresses.indexOf(aReplicaNodes[i]));
     
     if (aNoSQLAddresses.indexOf(aReplicaNodes[i]) != -1) {
         delete aReplicaNodes[i];
@@ -57,7 +54,7 @@ function removeSlave(masterId, ip) {
             "curl -fsSL \"https://raw.githubusercontent.com/dzotic9/lets-encrypt/master/test/mongo/removeSlave.sh\" -o /tmp/removeSlave.sh",
             "/bin/bash /tmp/removeSlave.sh \"ip\""
         ];
-    java.lang.System.out.println("DEBUG - removeSlave - masterId -> " + masterId);
+
     return exec(masterId, cmd);
 }
 
@@ -101,10 +98,8 @@ function getReplicaAddresses() {
     aIps = oResp.responses[0].out.replace(/.*\"name\" : \"/g, "");
     aIps = aIps.replace(/:27017/g, "");
 
-    java.lang.System.out.println("DEBUG - getReplicaAddresses - aIps -> " + aIps);
     aIps = aIps.replace(/\n/g, "");
     return aIps;
-    java.lang.System.out.println("DEBUG - getReplicaAddresses - aIps -> " + aIps);
     return aIps.split("\",");
 }
 

@@ -9,6 +9,11 @@ menu:
   action: scaleout
 - caption: ScaleIn
   action: scalein
+buttons:
+- caption: ScaleOut
+  action: scaleout
+- caption: ScaleIn
+  action: scalein
 onAfterScaleIn [nosqldb]:
   script: "${globals.PATH}scripts/scaleIn.js"
 actions:

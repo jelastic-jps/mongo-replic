@@ -9,8 +9,8 @@ menu:
   action: scaleout
 - caption: ScaleIn
   action: scalein
-onAfterScaleIn:
-  script: ''
+onAfterScaleIn [nosqldb]:
+  script: "${globals.PATH}scripts/scaleIn.js"
 actions:
   scalein:
   - script: 'return {result: 0, onAfterReturn:{setNodes:{count:${nodes.nosqldb.length}

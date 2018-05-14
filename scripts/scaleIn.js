@@ -7,7 +7,7 @@ var sTargetAppid = getParam("TARGET_APPID"),
 
 for (var i = 0, n = aNodes.length; i < n; i += 1) {
     if (aNodes[i].nodeGroup == "nosqldb") {
-        aNoSQLAddresses.push(aNodes[i].address);
+        aNoSQLAddresses.push(String(aNodes[i].address));
 
         if (!nMasterId) {
             if (isPrimary(aNodes[i].id) == "true") {
@@ -24,24 +24,21 @@ for (var i = 0, n = aNodes.length; i < n; i += 1) {
 
 aReplicaNodes = getReplicaAddresses();
 
-aReplicaNodes = aReplicaNodes.split("\",");
-
 for (var i = 0, n = aReplicaNodes.length; i < n; i += 1) {
-    //if (aNodes[i].nodeGroup == "nosqldb") {
-    
+
     if (aReplicaNodes[i] == sArbiterIp) {
         delete aReplicaNodes[i];
     }
-    
+
     if (aNoSQLAddresses.indexOf(aReplicaNodes[i]) != -1) {
         delete aReplicaNodes[i];
     }
-    //}
 }
-return "cleanned -> " + aReplicaNodes;
+aReplicaNodes = aReplicaNodes.filter(function(n){ return n != undefined }); 
+
 for (var i = 0, n = aReplicaNodes.length; i < n; i += 1) {
     var oResp;
-    
+
     oResp = removeSlave(nMasterId, aReplicaNodes[i]);
     
     if (!oResp || oResp.result != 0){
@@ -51,8 +48,8 @@ for (var i = 0, n = aReplicaNodes.length; i < n; i += 1) {
 
 function removeSlave(masterId, ip) {
     var cmd = [
-            "curl -fsSL \"https://raw.githubusercontent.com/dzotic9/lets-encrypt/master/test/mongo/removeSlave.sh\" -o /tmp/removeSlave.sh",
-            "/bin/bash /tmp/removeSlave.sh \"ip\""
+            "curl -fsSL \"https://raw.githubusercontent.com/dzotic9/mongo-replic/master/scripts/removeSlave.sh\" -o /tmp/removeSlave.sh",
+            "/bin/bash /tmp/removeSlave.sh " + ip + ":27017"
         ];
 
     return exec(masterId, cmd);
@@ -62,7 +59,7 @@ function isPrimary(nodeId) {
     var cmd;
   
     cmd = [
-        "curl -fsSL \"https://raw.githubusercontent.com/dzotic9/lets-encrypt/master/test/mongo/isMaster.sh\" -o /tmp/checkMaster.sh", 
+        "curl -fsSL \"https://raw.githubusercontent.com/dzotic9/mongo-replic/master/scripts/isMaster.sh\" -o /tmp/checkMaster.sh", 
         "/bin/bash /tmp/checkMaster.sh | grep ismaster | cut -c 15- | rev | cut -c 2- | rev"
     ];
 
@@ -85,7 +82,7 @@ function getReplicaAddresses() {
         aIps = [];
     
     cmd = [
-        "curl -fsSL \"https://raw.githubusercontent.com/dzotic9/lets-encrypt/master/test/mongo/getStatus.sh\" -o /tmp/getStatus.sh",
+        "curl -fsSL \"https://raw.githubusercontent.com/dzotic9/mongo-replic/master/scripts/getStatus.sh\" -o /tmp/getStatus.sh",
         "bash /tmp/getStatus.sh | grep name"
     ];
 
@@ -97,9 +94,8 @@ function getReplicaAddresses() {
     
     aIps = oResp.responses[0].out.replace(/.*\"name\" : \"/g, "");
     aIps = aIps.replace(/:27017/g, "");
-
-    aIps = aIps.replace(/\n/g, "");
-    return aIps;
+    aIps = aIps.replace(/\n/g, "").slice(0, -2);
+    
     return aIps.split("\",");
 }
 

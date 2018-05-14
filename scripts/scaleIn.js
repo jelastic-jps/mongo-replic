@@ -29,6 +29,7 @@ aReplicaNodes = aReplicaNodes.split("\",");
 for (var i = 0, n = aReplicaNodes.length; i < n; i += 1) {
     //if (aNodes[i].nodeGroup == "nosqldb") {
     java.lang.System.out.println("DEBUG - aReplicaNodes[i] -> " + aReplicaNodes[i]);
+    java.lang.System.out.println("DEBUG - aNoSQLAddresses -> " + aNoSQLAddresses);
     
     if (aReplicaNodes[i] == sArbiterIp) {
         delete aReplicaNodes[i];

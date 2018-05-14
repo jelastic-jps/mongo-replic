@@ -17,6 +17,7 @@
     }
   ],
   "globals": {
+    "PATH": "https://raw.githubusercontent.com/dzotic9/mongo-replic/master/",
     "ARBITER_PATH": "/var/lib/mongo/arb",
     "REPL_SET_NAME": "rs0",
     "MONGO_LOG": "/var/log/mongo-replic-install.log"
@@ -63,7 +64,7 @@
     {
       "cmd": {
         "commands": [
-          "curl \"https://raw.githubusercontent.com/dzotic9/mongo-replic/master/scripts/initiate.sh?_r=${fn.random}\" -o /tmp/mongo-replic.sh >>${globals.MONGO_LOG}",
+          "curl \"${globals.PATH}scripts/initiate.sh?_r=${fn.random}\" -o /tmp/mongo-replic.sh >>${globals.MONGO_LOG}",
           "bash -x /tmp/mongo-replic.sh ${nodes.nosqldb[0].address} ${nodes.nosqldb[1].address} ${nodes.arb.address} initiate >> ${globals.MONGO_LOG}"
         ],
         "nodeId": "${nodes.nosqldb[0].id}"
@@ -71,7 +72,7 @@
     },
     {
       "install": {
-        "jps": "https://raw.githubusercontent.com/dzotic9/mongo-replic/master/add-ons/scaling.jps?_r=${fn.random}",
+        "jps": "${globals.PATH}add-ons/scaling.jps?_r=${fn.random}",
         "nodeGroup": "nosqldb"
       }
     }

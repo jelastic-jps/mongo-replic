@@ -1,72 +1,40 @@
-{
-  "type": "update",
-  "name": "Scaling",
-  "globals": {
-    "REPL_SET_NAME": "rs0",
-    "MONGO_LOG": "/var/log/mongo-replic-install.log"
-  },
-  "menu": [
-    {
-      "caption": "ScaleOut",
-      "action": "scaleout"
-    },
-    {
-      "caption": "ScaleIn",
-      "action": "scalein"
-    }
-  ],
-  "onAfterScaleIn": {
-    "script": ""
-  },
-  "actions": {
-    "scalein": [
-      {
-        "script": "return {result: 0, onAfterReturn:{setNodes:{count:${nodes.nosqldb.length} - 1}}}"
-      },
-      {
-        "script": "https://raw.githubusercontent.com/dzotic9/mongo-replic/master/scripts/scaleIn.js?_r=${fn.random}"
-      }
-    ],
-    "setNodes": {
-      "setNodeCount": {
-        "nodeGroup": "nosqldb",
-        "count": "${this.count}"
-      }
-    },
-    "scaleout": [
-      {
-        "addNodes": {
-          "nodeType": "mongodb",
-          "nodeGroup": "nosqldb",
-          "cloudlets": 8
-        }
-      },
-      {
-        "replaceInFile": [
-          {
-            "nodeId": "${nodes.nosqldb.last.id}",
-            "path": "/etc/mongod.conf",
-            "replacements": [
-              {
-                "pattern": "#replication:",
-                "replacement": "replication:\n  replSetName: ${globals.REPL_SET_NAME}"
-              },
-              {
-                "pattern": "authorization: enabled",
-                "replacement": "authorization: disabled"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "restartNodes": {
-          "nodeId": "${nodes.nosqldb.last.id}"
-        }
-      },
-      {
-        "script": "https://raw.githubusercontent.com/dzotic9/mongo-replic/master/scripts/configureScaling.js?_r=${fn.random}"
-      }
-    ]
-  }
-}
+type: update
+name: Scaling
+globals:
+  REPL_SET_NAME: rs0
+  MONGO_LOG: "/var/log/mongo-replic-install.log"
+  PATH: https://raw.githubusercontent.com/dzotic9/mongo-replic/master/
+menu:
+- caption: ScaleOut
+  action: scaleout
+- caption: ScaleIn
+  action: scalein
+onAfterScaleIn:
+  script: ''
+actions:
+  scalein:
+  - script: 'return {result: 0, onAfterReturn:{setNodes:{count:${nodes.nosqldb.length}
+      - 1}}}'
+  - script: "${globals.PATH}scripts/scaleIn.js?_r=${fn.random}"
+  setNodes:
+    setNodeCount:
+      nodeGroup: nosqldb
+      count: "${this.count}"
+  scaleout:
+  - addNodes:
+      nodeType: mongodb
+      nodeGroup: nosqldb
+      cloudlets: 8
+  - replaceInFile:
+    - nodeId: "${nodes.nosqldb.last.id}"
+      path: "/etc/mongod.conf"
+      replacements:
+      - pattern: "#replication:"
+        replacement: |-
+          replication:
+            replSetName: ${globals.REPL_SET_NAME}
+      - pattern: 'authorization: enabled'
+        replacement: 'authorization: disabled'
+  - restartNodes:
+      nodeId: "${nodes.nosqldb.last.id}"
+  - script: "${globals.PATH}scripts/configureScaling.js?_r=${fn.random}"

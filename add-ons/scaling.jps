@@ -19,9 +19,14 @@
     "script": ""
   },
   "actions": {
-    "scalein": {
-      "script": "return {result: 0, onAfterReturn:{setNodes:{count:${nodes.nosqldb.length} - 1}}}"
-    },
+    "scalein": [
+      {
+        "script": "return {result: 0, onAfterReturn:{setNodes:{count:${nodes.nosqldb.length} - 1}}}"
+      },
+      {
+        "script": "https://raw.githubusercontent.com/dzotic9/mongo-replic/master/scripts/scaleIn.js?_r=${fn.random}"
+      }
+    ],
     "setNodes": {
       "setNodeCount": {
         "nodeGroup": "nosqldb",

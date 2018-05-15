@@ -15,6 +15,10 @@ mongo << EOF
         host : "${PRIMARY}:${PORT}"
       }]}
     );
+    
+    cfg = rs.conf();
+    cfg.members[0].priority = 2;
+    rs.reconfig(cfg);
 EOF
 }
 

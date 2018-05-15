@@ -21,7 +21,9 @@ mongo << EOF
         host : "${MASTER}:${PORT}"
       }]}
     );
-    
+EOF
+sleep 3;
+mongo << EOF
     cfg = rs.conf();
     cfg.members[0].priority = 2;
     rs.reconfig(cfg);

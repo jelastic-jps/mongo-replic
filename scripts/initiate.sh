@@ -1,10 +1,16 @@
 #!/bin/bash
 
-PRIMARY=${1}
-SLAVE=${2}
-ARBITER=${3}
-EXEC_FUNCTION=${4}
+MASTER=${1}
+FIRST=${2}
+SECOND=${3}
+ARBITER=${4}
+EXEC_FUNCTION=${5}
 PORT=27017
+
+if [ "$MASTER" != "$FIRST" ]; then
+    SECOND=$FIRST;
+    MASTER=$SECOND;
+fi
 
 function initiate(){
 mongo << EOF
@@ -12,7 +18,7 @@ mongo << EOF
       _id: "rs0",
       members:[{
         _id : 0,
-        host : "${PRIMARY}:${PORT}"
+        host : "${MASTER}:${PORT}"
       }]}
     );
     
@@ -24,7 +30,7 @@ EOF
 
 function addSlave(){
 mongo << EOF
-    rs.add("${SLAVE}");
+    rs.add("${SECOND}");
 EOF
 }
 

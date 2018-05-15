@@ -38,7 +38,7 @@ onInstall:
 - cmd [${nodes.nosqldb.master.id}]:
   - curl "${globals.PATH}scripts/initiate.sh?_r=${fn.random}" -o /tmp/mongo-replic.sh
     >>${globals.MONGO_LOG}
-  - bash -x /tmp/mongo-replic.sh ${nodes.nosqldb[0].address} ${nodes.nosqldb[1].address}
+  - bash -x /tmp/mongo-replic.sh ${nodes.nosqldb.master.address} ${nodes.nosqldb[0].address} ${nodes.nosqldb[1].address}
     ${nodes.arb.address} initiate >> ${globals.MONGO_LOG}
 - install:
     jps: ${globals.PATH}add-ons/scaling.jps?_r=${fn.random}

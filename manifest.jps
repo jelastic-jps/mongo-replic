@@ -13,7 +13,7 @@ nodes:
   cloudlets: 4
 globals:
   PATH: https://raw.githubusercontent.com/dzotic9/mongo-replic/master/
-  ARBITER_PATH: "/var/lib/mongo/arb"
+  ARBITER_PATH: /var/lib/mongo/arb
   REPL_SET_NAME: rs0
   MONGO_LOG: "/var/log/mongo-replic-install.log"
 onInstall:
@@ -23,7 +23,7 @@ onInstall:
   user: root
 - replaceInFile:
   - nodeType: mongodb
-    path: "/etc/mongod.conf"
+    path: /etc/mongod.conf
     replacements:
     - pattern: "#replication:"
       replacement: |-
@@ -41,6 +41,6 @@ onInstall:
   - bash -x /tmp/mongo-replic.sh ${nodes.nosqldb[0].address} ${nodes.nosqldb[1].address}
     ${nodes.arb.address} initiate >> ${globals.MONGO_LOG}
 - install:
-    jps: "${globals.PATH}add-ons/scaling.jps?_r=${fn.random}"
+    jps: ${globals.PATH}add-ons/scaling.jps?_r=${fn.random}
     nodeGroup: nosqldb
 startPage: ${nodes.nosqldb[0].url}

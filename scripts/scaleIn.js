@@ -21,6 +21,9 @@ for (var i = 0, n = aNodes.length; i < n; i += 1) {
     }
 }
 
+if (!nMasterId) {
+    //set nosqldb master node primary node
+}
 
 aReplicaNodes = getReplicaAddresses();
 
@@ -34,7 +37,11 @@ for (var i = 0, n = aReplicaNodes.length; i < n; i += 1) {
         delete aReplicaNodes[i];
     }
 }
-aReplicaNodes = aReplicaNodes.filter(function(n){ return n != undefined }); 
+aReplicaNodes = aReplicaNodes.filter(
+    function(n){ 
+        return n != undefined 
+    }
+); 
 
 for (var i = 0, n = aReplicaNodes.length; i < n; i += 1) {
     var oResp;
@@ -65,7 +72,7 @@ function isPrimary(nodeId) {
 
     oResp = exec(nodeId, cmd);
     
-    if (!oResp || oResp.result != 0){
+    if (!oResp || oResp.result != 0) {
         return oResp;
     }
   

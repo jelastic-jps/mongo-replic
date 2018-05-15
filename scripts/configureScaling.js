@@ -2,7 +2,7 @@ var sTargetAppid = getParam("TARGET_APPID"),
     oEnv = jelastic.env.control.GetEnvInfo(sTargetAppid, session),
     nodesCount = "${nodes.nosqldb.length}",
     aNodes = oEnv.nodes,
-    slaveVote,
+    slaveVote = 1,
     oResp;
 
 function isPrimary(nodeId) {

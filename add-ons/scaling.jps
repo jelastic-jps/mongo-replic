@@ -6,28 +6,10 @@ globals:
   PATH: https://raw.githubusercontent.com/dzotic9/mongo-replic/master/
 targetNodes:
   nodeGroup: nosqldb
-menu:
-- caption: ScaleOut
-  action: addNOSQLNode
-- caption: ScaleIn
-  action: scalein
-buttons:
-- caption: ScaleOut
-  action: addNOSQLNode
-- caption: ScaleIn
-  action: scalein
 onAfterScaleIn [nosqldb]:
-  script: https://download.jelastic.com/public.php?service=files&t=ced41ee79edba10532820bbf3cce5cf6&download
+  script: ${globals.PATH}scripts/scaleIn.js
 onAfterScaleOut [nosqldb]: scaleoutNodes
 actions:
-  scalein:
-  - script: 'return {result: 0, onAfterReturn:{setNodes:{count:${nodes.nosqldb.length}
-      - 1}}}'
-  - script: https://download.jelastic.com/public.php?service=files&t=ced41ee79edba10532820bbf3cce5cf6&download
-  setNodes:
-    setNodeCount:
-      nodeGroup: nosqldb
-      count: ${this.count}
   scaleoutNodes:
   - forEach (event.response.nodes):
     - replaceInFile:
@@ -42,11 +24,6 @@ actions:
           replacement: 'authorization: disabled'
     - restartNodes:
         nodeId: ${@i.id}
-    - script: https://download.jelastic.com/public.php?service=files&t=e80b549e7f1dc1016786c12c7a109ee6&download
+    - script: https://raw.githubusercontent.com/dzotic9/mongo-replic/master/scripts/configureScaling.js
       params:
         newNode: ${@i.address}
-  addNOSQLNode:
-    addNodes:
-      nodeType: mongodb
-      nodeGroup: nosqldb
-      cloudlets: 8

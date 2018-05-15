@@ -25,9 +25,13 @@ function isPrimary(nodeId) {
 }
 
 function addSlave(nodeId) {
-    var cmd = [
+    var cmd,
+        newIpAddress;
+        
+    newIpAddress = newNode || "${nodes.nosqldb.last.address}";
+    cmd = [
             "curl -fsSL \"https://raw.githubusercontent.com/dzotic9/mongo-replic/master/scripts/addSlave.sh\" -o /tmp/addSlave.sh",
-            "/bin/bash /tmp/addSlave.sh ${nodes.nosqldb.last.address}"
+            "/bin/bash /tmp/addSlave.sh " + newIpAddress
         ];
 
     return exec(nodeId, cmd);
@@ -43,7 +47,7 @@ for (var i = 0, n = aNodes.length; i < n; i += 1) {
 
     if (aNodes[i].nodeGroup == "nosqldb") {
         if (isPrimary(aNodes[i].id) == "true") {
-            oResp = addSlave(aNodes[i].id);
+            oResp = addSlave(Number(aNodes[i].id));
 
             if (!oResp || oResp.result != 0){
                 return oResp;
@@ -55,4 +59,3 @@ return {
     result: 0,
     response: oResp
 };
-return oResp;

@@ -35,13 +35,12 @@ onInstall:
     nodegroup: nosqldb
 - restartNodes:
     nodegroup: arb
-- cmd:
+- cmd [${nodes.nosqldb.master.id}]:
   - curl "${globals.PATH}scripts/initiate.sh?_r=${fn.random}" -o /tmp/mongo-replic.sh
     >>${globals.MONGO_LOG}
   - bash -x /tmp/mongo-replic.sh ${nodes.nosqldb[0].address} ${nodes.nosqldb[1].address}
     ${nodes.arb.address} initiate >> ${globals.MONGO_LOG}
-  nodeId: "${nodes.nosqldb[0].id}"
 - install:
     jps: "${globals.PATH}add-ons/scaling.jps?_r=${fn.random}"
     nodeGroup: nosqldb
-startPage: "${nodes.nosqldb[0].url}"
+startPage: ${nodes.nosqldb[0].url}

@@ -7,7 +7,7 @@ globals:
 targetNodes:
   nodeGroup: nosqldb
 onAfterScaleIn [nosqldb]:
-  script: ${globals.PATH}scripts/scaleIn.js
+  script: ${globals.PATH}scripts/scaleIn.js?_r=${fn.random}
 onAfterScaleOut [nosqldb]: scaleoutNodes
 actions:
   scaleoutNodes:
@@ -24,6 +24,6 @@ actions:
           replacement: 'authorization: disabled'
     - restartNodes:
         nodeId: ${@i.id}
-    - script: https://raw.githubusercontent.com/dzotic9/mongo-replic/master/scripts/configureScaling.js
+    - script: https://raw.githubusercontent.com/dzotic9/mongo-replic/master/scripts/configureScaling.js?_r=${fn.random}
       params:
         newNode: ${@i.address}

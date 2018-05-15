@@ -2,44 +2,51 @@ type: update
 name: Scaling
 globals:
   REPL_SET_NAME: rs0
-  MONGO_LOG: "/var/log/mongo-replic-install.log"
+  MONGO_LOG: /var/log/mongo-replic-install.log
   PATH: https://raw.githubusercontent.com/dzotic9/mongo-replic/master/
+targetNodes:
+  nodeGroup: nosqldb
 menu:
 - caption: ScaleOut
-  action: scaleout
+  action: addNOSQLNode
 - caption: ScaleIn
   action: scalein
 buttons:
 - caption: ScaleOut
-  action: scaleout
+  action: addNOSQLNode
 - caption: ScaleIn
   action: scalein
 onAfterScaleIn [nosqldb]:
-  script: "${globals.PATH}scripts/scaleIn.js"
+  script: https://download.jelastic.com/public.php?service=files&t=ced41ee79edba10532820bbf3cce5cf6&download
+onAfterScaleOut [nosqldb]: scaleoutNodes
 actions:
   scalein:
   - script: 'return {result: 0, onAfterReturn:{setNodes:{count:${nodes.nosqldb.length}
       - 1}}}'
-  - script: "${globals.PATH}scripts/scaleIn.js?_r=${fn.random}"
+  - script: https://download.jelastic.com/public.php?service=files&t=ced41ee79edba10532820bbf3cce5cf6&download
   setNodes:
     setNodeCount:
       nodeGroup: nosqldb
-      count: "${this.count}"
-  scaleout:
-  - addNodes:
+      count: ${this.count}
+  scaleoutNodes:
+  - forEach (event.response.nodes):
+    - replaceInFile:
+      - nodeId: ${@i.id}
+        path: /etc/mongod.conf
+        replacements:
+        - pattern: "#replication:"
+          replacement: |-
+            replication:
+              replSetName: ${globals.REPL_SET_NAME}
+        - pattern: 'authorization: enabled'
+          replacement: 'authorization: disabled'
+    - restartNodes:
+        nodeId: ${@i.id}
+    - script: https://download.jelastic.com/public.php?service=files&t=e80b549e7f1dc1016786c12c7a109ee6&download
+      params:
+        newNode: ${@i.address}
+  addNOSQLNode:
+    addNodes:
       nodeType: mongodb
       nodeGroup: nosqldb
       cloudlets: 8
-  - replaceInFile:
-    - nodeId: "${nodes.nosqldb.last.id}"
-      path: "/etc/mongod.conf"
-      replacements:
-      - pattern: "#replication:"
-        replacement: |-
-          replication:
-            replSetName: ${globals.REPL_SET_NAME}
-      - pattern: 'authorization: enabled'
-        replacement: 'authorization: disabled'
-  - restartNodes:
-      nodeId: "${nodes.nosqldb.last.id}"
-  - script: "${globals.PATH}scripts/configureScaling.js?_r=${fn.random}"

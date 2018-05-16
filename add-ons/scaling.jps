@@ -31,3 +31,4 @@ actions:
     - restartNodes [${@i.id}]
     - script: ${baseUrl}scripts/configureScaling.js?_r=${fn.random}
       newNode: ${@i.address}
+      nodeGroup: nosqldb

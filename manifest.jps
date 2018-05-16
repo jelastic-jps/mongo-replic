@@ -20,8 +20,8 @@ globals:
 
 onInstall:
 - cmd [arb]:
-    mkdir ${globals.ARBITER_PATH} && chown mongod:mongod ${globals.ARBITER_PATH};
-    sed -i "s|dbPath:.*|dbPath: ${globals.ARBITER_PATH}|g" /etc/mongod.conf
+    - mkdir ${globals\.ARBITER_PATH} && chown mongod:mongod ${globals.ARBITER_PATH}
+    - sed -i "s|dbPath:.*|dbPath: ${globals.ARBITER_PATH}|g" /etc/mongod.conf
   user: root
 - replaceInFile:
   - nodeType: mongodb

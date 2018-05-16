@@ -1,14 +1,20 @@
 type: update
 name: Scaling
+
+baseUrl: https://raw.githubusercontent.com/dzotic9/mongo-replic/master/
+
 globals:
   REPL_SET_NAME: rs0
   MONGO_LOG: /var/log/mongo-replic-install.log
-  PATH: https://raw.githubusercontent.com/dzotic9/mongo-replic/master/
+
 targetNodes:
   nodeGroup: nosqldb
+
 onAfterScaleIn [nosqldb]:
-  script: ${globals.PATH}scripts/scaleIn.js?_r=${fn.random}
+  script: ${baseUrl}scripts/scaleIn.js?_r=${fn.random}
+
 onAfterScaleOut [nosqldb]: scaleoutNodes
+
 actions:
   scaleoutNodes:
   - forEach (event.response.nodes):
@@ -22,8 +28,6 @@ actions:
               replSetName: ${globals.REPL_SET_NAME}
         - pattern: 'authorization: enabled'
           replacement: 'authorization: disabled'
-    - restartNodes:
-        nodeId: ${@i.id}
-    - script: https://raw.githubusercontent.com/dzotic9/mongo-replic/master/scripts/configureScaling.js?_r=${fn.random}
-      params:
-        newNode: ${@i.address}
+    - restartNodes [${@i.id}]
+    - script: ${baseUrl}scripts/configureScaling.js?_r=${fn.random}
+      newNode: ${@i.address}

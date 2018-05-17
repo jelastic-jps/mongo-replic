@@ -13,14 +13,17 @@ targetNodes:
   nodeGroup: nosqldb
 
 onAfterScaleIn [nosqldb]:
-  script: ${baseUrl}scripts/scaleIn.js?_r=${fn.random}
+  script: ${baseUrl}scripts/checkPrimaryNode.js?_r=${fn.random}
+  next: scaleIn
 
-onAfterScaleOut [nosqldb]: checkPrimaryNode
+onAfterScaleOut [nosqldb]:
+  script: ${baseUrl}scripts/checkPrimaryNode.js?_r=${fn.random}
+  next: scaleoutNodes
 
 actions:
-  checkPrimaryNode:
-    script: ${baseUrl}scripts/checkPrimaryNode.js?_r=${fn.random}
-    next: scaleoutNodes
+  scaleIn:
+    script: ${baseUrl}scripts/scaleIn.js?_r=${fn.random}
+    masterNodeId: ${this.masterNodeId}
 
   scaleoutNodes:
   - forEach (event.response.nodes):

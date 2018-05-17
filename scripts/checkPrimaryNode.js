@@ -1,7 +1,7 @@
 var NOSQL_GROUP = "nosqldb",
     sTargetAppid = getParam("TARGET_APPID"),
     oNodes = jelastic.env.control.GetEnvInfo(sTargetAppid, session).nodes,
-    nodesCount = "${nodes.nosqldb.length}",    
+    nodesCount = "${nodes.nosqldb.length}",
     slaveVote = 1,
     oResp,
     i, 
@@ -12,8 +12,10 @@ for (i = 0, n = nodesCount; i < n; i += 1) {
     if (isPrimary(oNodes[i].id)) {
       return {
         result: 0,
-        onAfterReturn [next]: {
-          masterNodeId: oNodes[i].id
+        onAfterReturn: {
+            next: {
+                masterNodeId: oNodes[i].id
+            }
         }
       }
     }

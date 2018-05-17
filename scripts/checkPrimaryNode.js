@@ -39,18 +39,14 @@ function isPrimary(nodeId) {
   
     cmd = [
         "curl -fsSL \"${baseUrl}scripts/isMaster.sh\" -o /tmp/checkMaster.sh", 
-        "/bin/bash /tmp/checkMaster.sh | grep ismaster | cut -c 15- | rev | cut -c 2- | rev"
+        "/bin/bash /tmp/checkMaster.sh | grep ismaster | cut -c 15- | rev | cut -c 2- | rev",
+        "/bin/bash /tmp/checkMaster.sh  | grep isreplicaset"
     ];
-	
-	cmd2 = [
-        "curl -fsSL \"${baseUrl}scripts/isMaster.sh\" -o /tmp/checkMaster.sh", 
-        "/bin/bash /tmp/checkMaster.sh"
-    ];
-  
+	 
     jelastic.marketplace.console.WriteLog("DEBUG checkPrimaryNode isPrimary nodeId -> " + nodeId);
     oResp = exec(nodeId, cmd);
       jelastic.marketplace.console.WriteLog("DEBUG oResp - exec -> " + oResp);
-	jelastic.marketplace.console.WriteLog("Custom oResp - exec2 -> " + exec(nodeId, cmd2));
+	//jelastic.marketplace.console.WriteLog("Custom oResp - exec2 -> " + exec(nodeId, cmd2));
     if (!oResp || oResp.result != 0){
         return oResp;
     }

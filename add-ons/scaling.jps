@@ -20,8 +20,6 @@ actions:
     type: update
 name: Scaling
 
-baseUrl: https://raw.githubusercontent.com/dzotic9/mongo-replic/master/
-
 globals:
   REPL_SET_NAME: rs0
   MONGO_LOG: /var/log/mongo-replic-install.log

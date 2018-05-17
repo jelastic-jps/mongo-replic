@@ -1,19 +1,20 @@
+//masterNodeId
 var sTargetAppid = getParam("TARGET_APPID"),
     aNodes = jelastic.env.control.GetEnvInfo(sTargetAppid, session).nodes,
     aNoSQLAddresses = [],
     aReplicaNodes = [],
-    sArbiterIp = "",
-    nMasterId;
+    sArbiterIp = "";
+//     nMasterId;
 
 for (var i = 0, n = aNodes.length; i < n; i += 1) {
     if (aNodes[i].nodeGroup == "nosqldb") {
         aNoSQLAddresses.push(String(aNodes[i].address));
 
-        if (!nMasterId) {
-            if (isPrimary(aNodes[i].id) == "true") {
-                nMasterId = aNodes[i].id;
-            }
-        }
+//         if (!masterNodeId) {
+//             if (isPrimary(aNodes[i].id) == "true") {
+//                 nMasterId = aNodes[i].id;
+//             }
+//         }
     }
     
     if (!sArbiterIp && aNodes[i].nodeGroup == "arb") {
@@ -21,9 +22,9 @@ for (var i = 0, n = aNodes.length; i < n; i += 1) {
     }
 }
 
-if (!nMasterId) {
-    //set nosqldb master node primary node
-}
+// if (!nMasterId) {
+//     //set nosqldb master node primary node
+// }
 
 aReplicaNodes = getReplicaAddresses();
 
@@ -46,7 +47,7 @@ aReplicaNodes = aReplicaNodes.filter(
 for (var i = 0, n = aReplicaNodes.length; i < n; i += 1) {
     var oResp;
 
-    oResp = removeSlave(nMasterId, aReplicaNodes[i]);
+    oResp = removeSlave(masterNodeId, aReplicaNodes[i]);
     
     if (!oResp || oResp.result != 0){
         return oResp;

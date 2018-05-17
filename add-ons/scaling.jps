@@ -59,4 +59,4 @@ actions:
     - script: ${baseUrl}scripts/configureScaling.js?_r=${fn.random}
       newNodeIp: ${@i.address}
       nodeGroup: nosqldb
-      masterNodeIp: ${this.masterNodeIp}
+      masterNodeId: ${this.masterNodeId}

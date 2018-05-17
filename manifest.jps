@@ -20,11 +20,11 @@ globals:
 
 onInstall:
 - cmd [arb]:
-  - mkdir ${globals.ARBITER_PATH} && chown mongod:mongod ${globals.ARBITER_PATH};
-    sed -i "s|dbPath:.*|dbPath ${globals.ARBITER_PATH}|g" /etc/mongod.conf
+  - 'mkdir ${globals.ARBITER_PATH} && chown mongod:mongod ${globals.ARBITER_PATH};
+    sed -i "s|dbPath:.*|dbPath: ${globals.ARBITER_PATH}|g" /etc/mongod.conf'
   user: root
 
-- cmd [nosqldb]:
+- cmd [*]:
   - 'sed -i "s|#replication:|replication:\n  replSetName: ${globals.REPL_SET_NAME}|g" /etc/mongod.conf;
     sed -i "s|authorization: enabled|authorization: disabled|g" /etc/mongod.conf'
   user: root

@@ -40,7 +40,7 @@ function isPrimary(nodeId) {
     cmd = [
         "curl -fsSL \"${baseUrl}scripts/isMaster.sh\" -o /tmp/checkMaster.sh", 
         "/bin/bash /tmp/checkMaster.sh | grep ismaster | cut -c 15- | rev | cut -c 2- | rev",
-        "/bin/bash /tmp/checkMaster.sh  | grep isreplicaset"
+        "/bin/bash /tmp/checkMaster.sh | grep isreplicaset"
     ];
 	 
     jelastic.marketplace.console.WriteLog("DEBUG checkPrimaryNode isPrimary nodeId -> " + nodeId);

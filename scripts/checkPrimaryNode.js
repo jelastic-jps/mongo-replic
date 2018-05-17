@@ -43,6 +43,12 @@ function isPrimary(nodeId) {
     return oResp.out;
 }
 
+function exec(nodeid, cmd) {
+    return jelastic.env.control.ExecCmdById(sTargetAppid, session, nodeid, toJSON([{
+      "command": cmd.join("\n")
+    }]));
+}
+
 return {
   result: 0
 }

@@ -44,7 +44,7 @@ function isPrimary(nodeId) {
   
     jelastic.marketplace.console.WriteLog("DEBUG checkPrimaryNode isPrimary nodeId -> " + nodeId);
     oResp = exec(nodeId, cmd);
-      java.lang.System.out.println("DEBUG oResp - exec -> " + oResp);
+      jelastic.marketplace.console.WriteLog("DEBUG oResp - exec -> " + oResp);
     if (!oResp || oResp.result != 0){
         return oResp;
     }

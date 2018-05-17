@@ -10,6 +10,7 @@ var NOSQL_GROUP = "nosqldb",
     
 for (i = 0, n = nodesCount; i < n; i += 1) {
   if (oNodes[i].nodeGroup == NOSQL_GROUP) {
+      java.lang.System.out.println("DEBUG - oNodes[i] -> " oNodes[i]);
     if (isPrimary(oNodes[i].id)) {
       oResp = {
           result: 0,

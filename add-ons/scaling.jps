@@ -16,6 +16,39 @@ onAfterScaleIn [nosqldb]:
 onAfterScaleOut [nosqldb]: scaleoutNodes
 
 actions:
+  checkPrimaryNode:
+    type: update
+name: Scaling
+
+baseUrl: https://raw.githubusercontent.com/dzotic9/mongo-replic/master/
+
+globals:
+  REPL_SET_NAME: rs0
+  MONGO_LOG: /var/log/mongo-replic-install.log
+
+targetNodes:
+  nodeGroup: nosqldb
+
+onAfterScaleIn [nosqldb]:
+  script: ${baseUrl}scripts/scaleIn.js?_r=${fn.random}
+
+onAfterScaleOut [nosqldb]: checkPrimaryNode
+
+actions:
+  checkPrimaryNode:
+    script: ${baseUrl}scripts/checkPrimaryNode.js?_r=${fn.random}
+    next: scaleoutNodes
+  scaleoutNodes:
+  - forEach (event.response.nodes):
+    - cmd [${@i.id}]:
+      - 'sed -i "s|#replication:|replication:\n  replSetName: ${globals.REPL_SET_NAME}|g" /etc/mongod.conf;
+        sed -i "s|authorization: enabled|authorization: disabled|g" /etc/mongod.conf'
+      user: root
+    - restartNodes [${@i.id}]
+    - script: ${baseUrl}scripts/configureScaling.js?_r=${fn.random}
+      newNode: ${@i.address}
+      nodeGroup: nosqldb
+
   scaleoutNodes:
   - forEach (event.response.nodes):
     - cmd [${@i.id}]:

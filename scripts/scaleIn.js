@@ -1,4 +1,4 @@
-//masterNodeId
+//masterNodeId, nodeGroup
 var ARBITER_GROUP = "arb",
     sTargetAppid = getParam("TARGET_APPID"),
     aNodes = jelastic.env.control.GetEnvInfo(sTargetAppid, session).nodes,
@@ -7,7 +7,7 @@ var ARBITER_GROUP = "arb",
     sArbiterIp = "";
 
 for (var i = 0, n = aNodes.length; i < n; i += 1) {
-    if (aNodes[i].nodeGroup == "nosqldb") {
+    if (aNodes[i].nodeGroup == nodeGroup) {
         aNoSQLAddresses.push(String(aNodes[i].address));
     }
     

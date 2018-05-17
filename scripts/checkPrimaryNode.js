@@ -12,18 +12,22 @@ for (i = 0, n = oNodes.length; i < n; i += 1) {
     java.lang.System.out.println("DEBUG oNodes[i] -> " + oNodes[i]);
   if (oNodes[i].nodeGroup == nosqldbNodeGroup) {
     if (isPrimary(oNodes[i].id) == "true") {
-        java.lang.System.out.println("DEBUG isPrimary(oNodes[i].id) -> " + isPrimary(oNodes[i].id));
-        java.lang.System.out.println("DEBUG oNodes[i].id -> " + oNodes[i].id);
+      java.lang.System.out.println("DEBUG isPrimary(oNodes[i].id) -> " + isPrimary(oNodes[i].id));
+      java.lang.System.out.println("DEBUG oNodes[i].id -> " + oNodes[i].id);
       oResp = {
           result: 0,
           onAfterReturn: []
       };
       obj = {}; obj[next] = {masterNodeId: oNodes[i].id}
       oResp.onAfterReturn.push(obj);
-
-      return oResp;
+      break;
     }
   }
+}
+
+
+return oResp || {
+  result: 0
 }
 
 function isPrimary(nodeId) {
@@ -52,8 +56,4 @@ function exec(nodeid, cmd) {
     return jelastic.env.control.ExecCmdById(sTargetAppid, session, nodeid, toJSON([{
       "command": cmd.join("\n")
     }]));
-}
-
-return {
-  result: 0
 }

@@ -10,8 +10,8 @@ var sTargetAppid = getParam("TARGET_APPID"),
 
 	jelastic.marketplace.console.WriteLog("nodesCount -> " + nodesCount);
 for (i = 0, n = nodesCount; i < n; i += 1) {
-    java.lang.System.out.println("DEBUG oNodes[i].nodeGroup -> " + oNodes[i].nodeGroup);
-    java.lang.System.out.println("DEBUG oNodes[i] -> " + oNodes[i]);
+    jelastic.marketplace.console.WriteLog("DEBUG oNodes[i].nodeGroup -> " + oNodes[i].nodeGroup);
+    jelastic.marketplace.console.WriteLog("DEBUG oNodes[i] -> " + oNodes[i]);
   if (oNodes[i].nodeGroup == nosqldbNodeGroup) {
       
       jelastic.marketplace.console.WriteLog("checkPrimaryNode - oNodes[i].id -> " + oNodes[i].id);
@@ -41,7 +41,7 @@ function isPrimary(nodeId) {
         "/bin/bash /tmp/checkMaster.sh | grep ismaster | cut -c 15- | rev | cut -c 2- | rev"
     ];
   
-    java.lang.System.out.println("DEBUG checkPrimaryNode isPrimary nodeId -> " + nodeId);
+    jelastic.marketplace.console.WriteLog("DEBUG checkPrimaryNode isPrimary nodeId -> " + nodeId);
     oResp = exec(nodeId, cmd);
       java.lang.System.out.println("DEBUG oResp - exec -> " + oResp);
     if (!oResp || oResp.result != 0){

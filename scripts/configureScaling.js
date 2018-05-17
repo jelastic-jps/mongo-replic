@@ -9,7 +9,7 @@ function isPrimary(nodeId) {
     var cmd;
   
     cmd = [
-        "curl -fsSL \"https://raw.githubusercontent.com/dzotic9/mongo-replic/master/scripts/isMaster.sh\" -o /tmp/checkMaster.sh", 
+        "curl -fsSL \"${baseUrl}scripts/isMaster.sh\" -o /tmp/checkMaster.sh", 
         "/bin/bash /tmp/checkMaster.sh | grep ismaster | cut -c 15- | rev | cut -c 2- | rev"
     ];
   
@@ -32,7 +32,7 @@ function addSlave(nodeId, priority) {
         
     newIpAddress = newNode || "${nodes.nosqldb.last.address}";
     cmd = [
-            "curl -fsSL \"https://raw.githubusercontent.com/dzotic9/mongo-replic/master/scripts/addSlave.sh\" -o /tmp/addSlave.sh",
+            "curl -fsSL \"${baseUrl}scripts/addSlave.sh\" -o /tmp/addSlave.sh",
             "/bin/bash /tmp/addSlave.sh " + newIpAddress + " " + priority
         ];
 

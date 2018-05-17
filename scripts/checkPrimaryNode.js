@@ -8,12 +8,15 @@ var sTargetAppid = getParam("TARGET_APPID"),
     i, 
     n;
 
+	jelastic.marketplace.console.WriteLog("nodesCount -> " + nodesCount);
 for (i = 0, n = nodesCount; i < n; i += 1) {
     java.lang.System.out.println("DEBUG oNodes[i].nodeGroup -> " + oNodes[i].nodeGroup);
     java.lang.System.out.println("DEBUG oNodes[i] -> " + oNodes[i]);
   if (oNodes[i].nodeGroup == nosqldbNodeGroup) {
+      
+      jelastic.marketplace.console.WriteLog("checkPrimaryNode - oNodes[i].id -> " + oNodes[i].id);
     if (isPrimary(oNodes[i].id) == "true") {
-
+jelastic.marketplace.console.WriteLog("in if -> ");
       oResp = {
           result: 0,
           onAfterReturn: []

@@ -3,21 +3,6 @@ name: Scaling
 
 baseUrl: https://raw.githubusercontent.com/dzotic9/mongo-replic/master/
 
-globals:
-  REPL_SET_NAME: rs0
-  MONGO_LOG: /var/log/mongo-replic-install.log
-
-targetNodes:
-  nodeGroup: nosqldb
-
-onAfterScaleIn [nosqldb]:
-  script: ${baseUrl}scripts/scaleIn.js?_r=${fn.random}
-
-onAfterScaleOut [nosqldb]: scaleoutNodes
-
-actions:
-  checkPrimaryNode:
-    type: update
 name: Scaling
 
 globals:

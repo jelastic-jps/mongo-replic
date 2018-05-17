@@ -24,6 +24,7 @@ actions:
   scaleIn:
     script: ${baseUrl}scripts/scaleIn.js?_r=${fn.random}
     masterNodeId: ${this.masterNodeId}
+    nodeGroup: nosqldb
 
   scaleoutNodes:
   - forEach (event.response.nodes):

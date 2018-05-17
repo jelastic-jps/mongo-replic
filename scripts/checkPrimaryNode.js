@@ -6,13 +6,9 @@ var NOSQL_GROUP = "nosqldb",
     oResp,
     i, 
     n;
-    
-java.lang.System.out.println("DEBUG - oNodes -> " +  oNodes);
 
 for (i = 0, n = oNodes.length; i < n; i += 1) {
-    java.lang.System.out.println("DEBUG - oNodes[i].nodeGroup -> " +  oNodes[i].nodeGroup);
   if (oNodes[i].nodeGroup == NOSQL_GROUP) {
-      java.lang.System.out.println("DEBUG - oNodes[i] -> " +  oNodes[i]);
     if (isPrimary(oNodes[i].id) == "true") {
       oResp = {
           result: 0,

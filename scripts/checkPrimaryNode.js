@@ -3,6 +3,7 @@ var NOSQL_GROUP = "nosqldb",
     oNodes = jelastic.env.control.GetEnvInfo(sTargetAppid, session).nodes,
     nodesCount = "${nodes.nosqldb.length}",
     slaveVote = 1,
+    obj,
     oResp,
     i, 
     n;
@@ -10,14 +11,14 @@ var NOSQL_GROUP = "nosqldb",
 for (i = 0, n = nodesCount; i < n; i += 1) {
   if (oNodes[i].nodeGroup == NOSQL_GROUP) {
     if (isPrimary(oNodes[i].id)) {
-      return {
-        result: 0,
-        onAfterReturn: {
-            next: {
-                masterNodeId: oNodes[i].id
-            }
-        }
-      }
+      oResp = {
+          result: 0,
+          onAfterReturn: []
+      };
+      obj = {}; obj[next] = {masterNodeId: oNodes[i].id}
+      oResp.onAfterReturn.push(obj);
+
+      return oResp;
     }
   }
 }

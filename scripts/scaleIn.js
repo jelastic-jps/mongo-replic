@@ -28,11 +28,9 @@ for (var i = 0, n = aReplicaNodes.length; i < n; i += 1) {
         delete aReplicaNodes[i];
     }
 }
-aReplicaNodes = aReplicaNodes.filter(
-    function(n){ 
-        return n != undefined 
-    }
-); 
+aReplicaNodes = aReplicaNodes.filter(function(n){ 
+    return n != undefined 
+}); 
 
 for (var i = 0, n = aReplicaNodes.length; i < n; i += 1) {
     var oResp;

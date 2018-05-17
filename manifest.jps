@@ -5,14 +5,14 @@ logo: https://raw.githubusercontent.com/jelastic-jps/mongodb-replication/master/
 baseUrl: https://raw.githubusercontent.com/dzotic9/mongo-replic/master/
 
 nodes:
-- nodeType: mongodb
-  displayName: replSet
-  count: 2
-  cloudlets: 8
-- nodeType: mongodb
-  nodeGroup: arb
-  displayName: Arbiter
-  cloudlets: 4
+  - nodeType: mongodb
+    displayName: replSet
+    count: 2
+    cloudlets: 8
+  - nodeType: mongodb
+    nodeGroup: arb
+    displayName: Arbiter
+    cloudlets: 4
 
 globals:
   ARBITER_PATH: /var/lib/mongo/arb

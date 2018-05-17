@@ -14,7 +14,7 @@ for (i = 0, n = nodesCount; i < n; i += 1) {
       return {
         result: 0,
         onAfterReturn [next]: {
-          masterNodeIp: oNodes[i].address
+          masterNodeId: oNodes[i].id
         }
       }
     }

@@ -55,7 +55,7 @@ for (var i = 0, n = aReplicaNodes.length; i < n; i += 1) {
 
 function removeSlave(masterId, ip) {
     var cmd = [
-            "curl -fsSL \"https://raw.githubusercontent.com/dzotic9/mongo-replic/master/scripts/removeSlave.sh\" -o /tmp/removeSlave.sh",
+            "curl -fsSL \"${baseUrl}scripts/removeSlave.sh\" -o /tmp/removeSlave.sh",
             "/bin/bash /tmp/removeSlave.sh " + ip + ":27017"
         ];
 
@@ -66,7 +66,7 @@ function isPrimary(nodeId) {
     var cmd;
   
     cmd = [
-        "curl -fsSL \"https://raw.githubusercontent.com/dzotic9/mongo-replic/master/scripts/isMaster.sh\" -o /tmp/checkMaster.sh", 
+        "curl -fsSL \"${baseUrl}scripts/isMaster.sh\" -o /tmp/checkMaster.sh", 
         "/bin/bash /tmp/checkMaster.sh | grep ismaster | cut -c 15- | rev | cut -c 2- | rev"
     ];
 
@@ -89,7 +89,7 @@ function getReplicaAddresses() {
         aIps = [];
     
     cmd = [
-        "curl -fsSL \"https://raw.githubusercontent.com/dzotic9/mongo-replic/master/scripts/getStatus.sh\" -o /tmp/getStatus.sh",
+        "curl -fsSL \"${baseUrl}scripts/getStatus.sh\" -o /tmp/getStatus.sh",
         "bash /tmp/getStatus.sh | grep name"
     ];
 

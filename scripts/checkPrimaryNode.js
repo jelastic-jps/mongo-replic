@@ -12,8 +12,7 @@ for (i = 0, n = oNodes.length; i < n; i += 1) {
     java.lang.System.out.println("DEBUG oNodes[i] -> " + oNodes[i]);
   if (oNodes[i].nodeGroup == nosqldbNodeGroup) {
     if (isPrimary(oNodes[i].id) == "true") {
-      java.lang.System.out.println("DEBUG isPrimary(oNodes[i].id) -> " + isPrimary(oNodes[i].id));
-      java.lang.System.out.println("DEBUG oNodes[i].id -> " + oNodes[i].id);
+
       oResp = {
           result: 0,
           onAfterReturn: []
@@ -40,7 +39,7 @@ function isPrimary(nodeId) {
   
     java.lang.System.out.println("DEBUG checkPrimaryNode isPrimary nodeId -> " + nodeId);
     oResp = exec(nodeId, cmd);
-      
+      java.lang.System.out.println("DEBUG oResp - exec -> " + oResp);
     if (!oResp || oResp.result != 0){
         return oResp;
     }

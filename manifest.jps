@@ -2,6 +2,8 @@ type: install
 name: MongoDB Database Replication
 logo: https://raw.githubusercontent.com/jelastic-jps/mongodb-replication/master/images/mongodb-70x70.png
 
+baseUrl: https://raw.githubusercontent.com/dzotic9/mongo-replic/master/
+
 nodes:
 - nodeType: mongodb
   displayName: replSet
@@ -13,7 +15,6 @@ nodes:
   cloudlets: 4
 
 globals:
-  PATH: https://raw.githubusercontent.com/dzotic9/mongo-replic/master/
   ARBITER_PATH: /var/lib/mongo/arb
   REPL_SET_NAME: rs0
   MONGO_LOG: "/var/log/mongo-replic-install.log"
@@ -33,10 +34,10 @@ onInstall:
 - restartNodes [arb]
 
 - cmd [${nodes.nosqldb.master.id}]:
-  - curl "${globals.PATH}scripts/initiate.sh?_r=${fn.random}" -o /tmp/mongo-replic.sh
+  - curl "${baseUrl}scripts/initiate.sh?_r=${fn.random}" -o /tmp/mongo-replic.sh
     >>${globals.MONGO_LOG}
   - bash -x /tmp/mongo-replic.sh ${nodes.nosqldb.master.address} ${nodes.nosqldb[0].address} ${nodes.nosqldb[1].address}
     ${nodes.arb.address} initiate >> ${globals.MONGO_LOG}
-- install [nosqldb]: ${globals.PATH}add-ons/scaling.jps?_r=${fn.random}nosqldb
+- install [nosqldb]: ${baseUrl}add-ons/scaling.jps?_r=${fn.random}
     
 startPage: ${nodes.nosqldb[0].url}

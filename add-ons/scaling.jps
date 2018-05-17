@@ -21,16 +21,6 @@ actions:
   checkPrimaryNode:
     script: ${baseUrl}scripts/checkPrimaryNode.js?_r=${fn.random}
     next: scaleoutNodes
-  scaleoutNodes:
-  - forEach (event.response.nodes):
-    - cmd [${@i.id}]:
-      - 'sed -i "s|#replication:|replication:\n  replSetName: ${globals.REPL_SET_NAME}|g" /etc/mongod.conf;
-        sed -i "s|authorization: enabled|authorization: disabled|g" /etc/mongod.conf'
-      user: root
-    - restartNodes [${@i.id}]
-    - script: ${baseUrl}scripts/configureScaling.js?_r=${fn.random}
-      newNode: ${@i.address}
-      nodeGroup: nosqldb
 
   scaleoutNodes:
   - forEach (event.response.nodes):

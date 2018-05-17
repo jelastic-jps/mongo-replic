@@ -18,16 +18,10 @@ onAfterScaleOut [nosqldb]: scaleoutNodes
 actions:
   scaleoutNodes:
   - forEach (event.response.nodes):
-    - replaceInFile:
-      - nodeId: ${@i.id}
-        path: /etc/mongod.conf
-        replacements:
-        - pattern: "#replication:"
-          replacement: |-
-            replication:
-              replSetName: ${globals.REPL_SET_NAME}
-        - pattern: 'authorization: enabled'
-          replacement: 'authorization: disabled'
+    - cmd [${@i.id}]:
+      - 'sed -i "s|#replication:|replication:\n  replSetName: ${globals.REPL_SET_NAME}|g" /etc/mongod.conf;
+        sed -i "s|authorization: enabled|authorization: disabled|g" /etc/mongod.conf'
+      user: root
     - restartNodes [${@i.id}]
     - script: ${baseUrl}scripts/configureScaling.js?_r=${fn.random}
       newNode: ${@i.address}

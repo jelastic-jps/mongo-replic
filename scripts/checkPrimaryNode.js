@@ -8,6 +8,8 @@ var NOSQL_GROUP = "nosqldb",
     i, 
     n;
     
+java.lang.System.out.println("DEBUG - oNodes -> " +  oNodes);
+java.lang.System.out.println("DEBUG - nodesCount -> " +  nodesCount);
 for (i = 0, n = nodesCount; i < n; i += 1) {
   if (oNodes[i].nodeGroup == NOSQL_GROUP) {
       java.lang.System.out.println("DEBUG - oNodes[i] -> " +  oNodes[i]);

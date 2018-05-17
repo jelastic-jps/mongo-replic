@@ -44,11 +44,18 @@ function isPrimary(nodeId) {
     ];
 	 
     jelastic.marketplace.console.WriteLog("DEBUG checkPrimaryNode isPrimary nodeId -> " + nodeId);
+	jelastic.marketplace.console.WriteLog("DEBUG cmd -> " + cmd);
     oResp = exec(nodeId, cmd);
       jelastic.marketplace.console.WriteLog("DEBUG oResp - exec -> " + oResp);
 	//jelastic.marketplace.console.WriteLog("Custom oResp - exec2 -> " + exec(nodeId, cmd2));
     if (!oResp || oResp.result != 0){
         return oResp;
+    }
+	
+    if (oResp.responses[1]) {
+        if (oResp.responses[1].out == "") {
+	    return false;
+	}
     }
   
     if (oResp.responses) {

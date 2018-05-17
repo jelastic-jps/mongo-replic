@@ -1,6 +1,6 @@
 type: install
 name: MongoDB Database Replication
-logo: https://raw.githubusercontent.com/jelastic-jps/mongodb-replication/master/images/mongodb-70x70.png
+logo: images/mongodb-70x70.png
 
 baseUrl: https://raw.githubusercontent.com/dzotic9/mongo-replic/master/
 

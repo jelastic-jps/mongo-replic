@@ -1,5 +1,5 @@
-var NOSQL_GROUP = "nosqldb",
-    sTargetAppid = getParam("TARGET_APPID"),
+//nosqldbNodeGroup
+var sTargetAppid = getParam("TARGET_APPID"),
     oNodes = jelastic.env.control.GetEnvInfo(sTargetAppid, session).nodes,
     slaveVote = 1,
     obj,
@@ -8,8 +8,12 @@ var NOSQL_GROUP = "nosqldb",
     n;
 
 for (i = 0, n = oNodes.length; i < n; i += 1) {
-  if (oNodes[i].nodeGroup == NOSQL_GROUP) {
+    java.lang.System.out.println("DEBUG oNodes[i].nodeGroup -> " + oNodes[i].nodeGroup);
+    java.lang.System.out.println("DEBUG oNodes[i] -> " + oNodes[i]);
+  if (oNodes[i].nodeGroup == nosqldbNodeGroup) {
     if (isPrimary(oNodes[i].id) == "true") {
+        java.lang.System.out.println("DEBUG isPrimary(oNodes[i].id) -> " + isPrimary(oNodes[i].id));
+        java.lang.System.out.println("DEBUG oNodes[i].id -> " + oNodes[i].id);
       oResp = {
           result: 0,
           onAfterReturn: []

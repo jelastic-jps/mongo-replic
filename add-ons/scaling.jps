@@ -57,6 +57,6 @@ actions:
       user: root
     - restartNodes [${@i.id}]
     - script: ${baseUrl}scripts/configureScaling.js?_r=${fn.random}
-      newNode: ${@i.address}
+      newNodeIp: ${@i.address}
       nodeGroup: nosqldb
-      masterNode: ${this.masterNodeIp}
+      masterNodeIp: ${this.masterNodeIp}

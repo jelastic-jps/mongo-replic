@@ -9,7 +9,7 @@ var sTargetAppid = getParam("TARGET_APPID"),
     n;
 
 	jelastic.marketplace.console.WriteLog("nodesCount -> " + nodesCount);
-for (i = 0, n = nodesCount + 1; i < n; i += 1) {
+for (i = 0, n = nodesCount; i < n; i += 1) {
 	jelastic.marketplace.console.WriteLog("i -> " + i);
     jelastic.marketplace.console.WriteLog("DEBUG oNodes[i].nodeGroup -> " + oNodes[i].nodeGroup);
     jelastic.marketplace.console.WriteLog("DEBUG oNodes[i] -> " + oNodes[i]);

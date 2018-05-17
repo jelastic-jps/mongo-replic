@@ -34,6 +34,7 @@ function isPrimary(nodeId) {
         "/bin/bash /tmp/checkMaster.sh | grep ismaster | cut -c 15- | rev | cut -c 2- | rev"
     ];
   
+    java.lang.System.out.println("DEBUG checkPrimaryNode isPrimary nodeId -> " + nodeId);
     oResp = exec(nodeId, cmd);
       
     if (!oResp || oResp.result != 0){

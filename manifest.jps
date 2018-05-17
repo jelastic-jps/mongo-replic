@@ -23,18 +23,15 @@ onInstall:
   - mkdir ${globals.ARBITER_PATH} && chown mongod:mongod ${globals.ARBITER_PATH};
     sed -i "s|dbPath:.*|dbPath ${globals.ARBITER_PATH}|g" /etc/mongod.conf
   user: root
-- replaceInFile:
-  - nodeType: mongodb
-    path: /etc/mongod.conf
-    replacements:
-    - pattern: "#replication:"
-      replacement: |-
-        replication:
-          replSetName: ${globals.REPL_SET_NAME}
-    - pattern: 'authorization: enabled'
-      replacement: 'authorization: disabled'
+
+- cmd [nosqldb]:
+  - 'sed -i "s|#replication:|-replication:\n  replSetName: ${globals.REPL_SET_NAME}|g" /etc/mongod.conf;
+    sed -i "s|authorization: enabled|authorization: disabled|g" /etc/mongod.conf'
+  user: root
+
 - restartNodes [nosqldb]    
 - restartNodes [arb]
+
 - cmd [${nodes.nosqldb.master.id}]:
   - curl "${globals.PATH}scripts/initiate.sh?_r=${fn.random}" -o /tmp/mongo-replic.sh
     >>${globals.MONGO_LOG}

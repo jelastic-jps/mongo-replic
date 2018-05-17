@@ -35,20 +35,6 @@ function exec(nodeid, cmd) {
     }]));
 }
 
-// for (var i = 0, n = aNodes.length; i < n; i += 1) {
-
-//     if (aNodes[i].nodeGroup == "nosqldb") {
-//         if (isPrimary(aNodes[i].id) == "true") {
-            
-//             if ((Number(nodesCount) + Number("${event.response.nodes.length}")) >= 7) {
-//                 slaveVote = 0;
-//             }
-
-            //oResp = addSlave(Number(masterNodeId), slaveVote);
-
-//         }
-//     }
-// }
 return {
     result: 0,
     response: oResp

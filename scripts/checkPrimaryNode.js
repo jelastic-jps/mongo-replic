@@ -1,7 +1,7 @@
 //nosqldbNodeGroup
 var sTargetAppid = getParam("TARGET_APPID"),
     oNodes = jelastic.env.control.GetEnvInfo(sTargetAppid, session).nodes,
-    nodesCount = Number("${nodes.length}"),
+//     nodesCount = Number("${nodes.length}"),
     slaveVote = 1,
     obj,
     oResp,
@@ -9,7 +9,7 @@ var sTargetAppid = getParam("TARGET_APPID"),
     n;
 
 	jelastic.marketplace.console.WriteLog("nodesCount -> " + nodesCount);
-for (i = 0, n = nodesCount; i < n; i += 1) {
+for (i = 0, n = oNodes.length; i < n; i += 1) {
 	jelastic.marketplace.console.WriteLog("i -> " + i);
     jelastic.marketplace.console.WriteLog("DEBUG oNodes[i].nodeGroup -> " + oNodes[i].nodeGroup);
     jelastic.marketplace.console.WriteLog("DEBUG oNodes[i] -> " + oNodes[i]);

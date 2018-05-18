@@ -39,9 +39,10 @@ function isPrimary(nodeId) {
   
     cmd = [
         "curl -fsSL \"https://github.com/dzotic9/mongo-replic/blob/master/scripts/isMaster.sh\" -o /tmp/checkMaster.sh", 
-        "/bin/bash /tmp/checkMaster.sh | grep ismaster | cut -c 15- | rev | cut -c 2- | rev",
-        "/bin/bash /tmp/checkMaster.sh | grep isreplicaset"
+        "/bin/bash /tmp/checkMaster.sh | grep ismaster | cut -c 15- | rev | cut -c 2- | rev"
     ];
+	
+	//"/bin/bash /tmp/checkMaster.sh | grep isreplicaset"
 	 
     jelastic.marketplace.console.WriteLog("DEBUG checkPrimaryNode isPrimary nodeId -> " + nodeId);
 	jelastic.marketplace.console.WriteLog("DEBUG cmd -> " + cmd);

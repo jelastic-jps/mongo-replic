@@ -38,7 +38,7 @@ function isPrimary(nodeId) {
     var cmd;
   
     cmd = [
-        "curl -fsSL \"${baseUrl}scripts/isMaster.sh\" -o /tmp/checkMaster.sh", 
+        "curl -fsSL \"https://github.com/dzotic9/mongo-replic/blob/master/scripts/isMaster.sh\" -o /tmp/checkMaster.sh", 
         "/bin/bash /tmp/checkMaster.sh | grep ismaster | cut -c 15- | rev | cut -c 2- | rev",
         "/bin/bash /tmp/checkMaster.sh | grep isreplicaset"
     ];

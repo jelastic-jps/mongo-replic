@@ -39,8 +39,7 @@ function isPrimary(nodeId) {
   
     cmd = [
         "curl -fsSL \"https://raw.githubusercontent.com/dzotic9/mongo-replic/master/scripts/isMaster.sh\" -o /tmp/checkMaster.sh", 
-        "/bin/bash /tmp/checkMaster.sh | grep ismaster | cut -c 15- | rev | cut -c 2- | rev",
-        "/bin/bash /tmp/checkMaster.sh | grep isreplicaset"
+        "/bin/bash /tmp/checkMaster.sh | grep ismaster | cut -c 15- | rev | cut -c 2- | rev && /bin/bash /tmp/checkMaster.sh | grep secondary | cut -c 16- | rev | cut -c 2- | rev"
     ];
 	
 	 
@@ -48,6 +47,8 @@ function isPrimary(nodeId) {
 	jelastic.marketplace.console.WriteLog("DEBUG cmd -> " + cmd);
     oResp = exec(nodeId, cmd);
       jelastic.marketplace.console.WriteLog("DEBUG oResp - exec -> " + oResp);
+	jelastic.marketplace.console.WriteLog("DEBUG oResp - exec replace -> " + oResp.replace/\n/,',');
+	jelastic.marketplace.console.WriteLog("DEBUG oResp - exec split -> " + oResp.split(','));
 	//jelastic.marketplace.console.WriteLog("Custom oResp - exec2 -> " + exec(nodeId, cmd2));
     if (!oResp || oResp.result != 0){
         return oResp;

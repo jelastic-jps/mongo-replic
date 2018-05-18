@@ -14,7 +14,8 @@ for (i = 0, n = oNodes.length; i < n; i += 1) {
   if (oNodes[i].nodeGroup == nosqldbNodeGroup) {
       
       jelastic.marketplace.console.WriteLog("checkPrimaryNode - oNodes[i].id -> " + oNodes[i].id);
-    if (isPrimary(oNodes[i].id) == "true") {
+    if (isPrimary(oNodes[i].id)) {
+	    jelastic.marketplace.console.WriteLog("is Primary == true");
 jelastic.marketplace.console.WriteLog("in if -> ");
       oResp = {
           result: 0,

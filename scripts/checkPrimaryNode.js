@@ -7,9 +7,8 @@ var sTargetAppid = getParam("TARGET_APPID"),
     oResp,
     i, 
     n;
-
+jelastic.marketplace.console.WriteLog("oNodes.length -> " + oNodes.length);
 for (i = 0, n = oNodes.length; i < n; i += 1) {
-	jelastic.marketplace.console.WriteLog("i -> " + i);
     jelastic.marketplace.console.WriteLog("DEBUG oNodes[i].nodeGroup -> " + oNodes[i].nodeGroup);
     jelastic.marketplace.console.WriteLog("DEBUG oNodes[i] -> " + oNodes[i]);
   if (oNodes[i].nodeGroup == nosqldbNodeGroup) {

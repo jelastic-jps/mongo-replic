@@ -71,8 +71,6 @@ function isPrimary(nodeId) {
 	
     if (aCmdResp[0] == "true" && aCmdResp[1] == "false") {
         return true;
-    } else {
-        return false;
     }
 }
 

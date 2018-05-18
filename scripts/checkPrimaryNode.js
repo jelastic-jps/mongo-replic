@@ -67,8 +67,8 @@ function isPrimary(nodeId) {
 	}
     }
 	
-	jelastic.marketplace.console.WriteLog("DEBUG oResp - aCmdResp -> " + aCmdResp);
-	
+	jelastic.marketplace.console.WriteLog("DEBUG oResp - aCmdResp[0] -> " + aCmdResp[0]);
+	jelastic.marketplace.console.WriteLog("DEBUG oResp - aCmdResp[1] -> " + aCmdResp[1]);
     if (aCmdResp[0] == "true" && aCmdResp[1] == "false") {
         return true;
     }

@@ -1,7 +1,7 @@
 //nosqldbNodeGroup
 var sTargetAppid = getParam("TARGET_APPID"),
     oNodes = jelastic.env.control.GetEnvInfo(sTargetAppid, session).nodes,
-    nodesCount = Number("${nodes.nosqldb.length}"),
+    nodesCount = Number("${nodes.length}"),
     slaveVote = 1,
     obj,
     oResp,
@@ -47,7 +47,7 @@ function isPrimary(nodeId) {
 	jelastic.marketplace.console.WriteLog("DEBUG cmd -> " + cmd);
     oResp = exec(nodeId, cmd);
       jelastic.marketplace.console.WriteLog("DEBUG oResp - exec -> " + oResp);
-	jelastic.marketplace.console.WriteLog("DEBUG oResp - exec replace -> " + oResp.replace(/\n/, ","));
+	
 	//jelastic.marketplace.console.WriteLog("DEBUG oResp - exec split -> " + oResp.split(','));
 	//jelastic.marketplace.console.WriteLog("Custom oResp - exec2 -> " + exec(nodeId, cmd2));
     if (!oResp || oResp.result != 0){
@@ -63,6 +63,7 @@ function isPrimary(nodeId) {
     if (oResp.responses) {
         oResp = oResp.responses[0];
     }
+	jelastic.marketplace.console.WriteLog("DEBUG oResp - exec replace -> " + oResp.out.replace(/\n/, ","));
     
     return oResp.out;
 }

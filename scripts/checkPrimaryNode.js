@@ -23,7 +23,8 @@ jelastic.marketplace.console.WriteLog("in if -> ");
       };
       obj = {}; obj[next] = {masterNodeId: oNodes[i].id}
       oResp.onAfterReturn.push(obj);
-      break;
+      
+      return oResp;
     }
   }
 }
@@ -64,7 +65,8 @@ function isPrimary(nodeId) {
         oResp = oResp.responses[0];
 	    
 	if (oResp.out) {
-	    aCmdResp = oResp.out.replace(/\n/, ",").split('\n');
+		jelastic.marketplace.console.WriteLog("DEBUG oResp.out -> " + oResp.out);
+	    aCmdResp = oResp.out.replace(/\n/, ",").split("\n");
 	}
     }
 	

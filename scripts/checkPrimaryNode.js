@@ -66,7 +66,9 @@ function isPrimary(nodeId) {
 	    
 	if (oResp.out) {
 		jelastic.marketplace.console.WriteLog("DEBUG oResp.out -> " + oResp.out);
+		jelastic.marketplace.console.WriteLog("DEBUG split -> " + oResp.out.split("\n"));
 	    aCmdResp = oResp.out.replace(/\n/, ",").split("\n");
+		jelastic.marketplace.console.WriteLog("DEBUG aCmdResp -> " + aCmdResp);
 	}
     }
 	

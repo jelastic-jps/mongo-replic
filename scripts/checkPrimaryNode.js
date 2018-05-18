@@ -34,7 +34,8 @@ return oResp || {
 }
 
 function isPrimary(nodeId) {
-    var cmd;
+    var cmd,
+	aCmdResp;
   
     cmd = [
         "curl -fsSL \"https://raw.githubusercontent.com/dzotic9/mongo-replic/master/scripts/isMaster.sh\" -o /tmp/checkMaster.sh", 
@@ -53,18 +54,27 @@ function isPrimary(nodeId) {
         return oResp;
     }
 	
-    if (oResp.responses[1]) {
-        if (oResp.responses[1].out == "") {
-	    return false;
-	}
-    }
+//     if (oResp.responses[1]) {
+//         if (oResp.responses[1].out == "") {
+// 	    return false;
+// 	}
+//     }
   
     if (oResp.responses) {
         oResp = oResp.responses[0];
+	    
+	if (oResp.out) {
+	    aCmdResp = oResp.out.replace(/\n/, ",").split('\n');
+	}
     }
-	jelastic.marketplace.console.WriteLog("DEBUG oResp - exec replace -> " + oResp.out.replace(/\n/, ","));
-    
-    return oResp.out;
+	
+	jelastic.marketplace.console.WriteLog("DEBUG oResp - aCmdResp -> " + aCmdResp);
+	
+    if (aCmdResp[0] == "true" && aCmdResp[1] == "false") {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 function exec(nodeid, cmd) {

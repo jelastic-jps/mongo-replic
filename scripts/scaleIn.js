@@ -44,8 +44,8 @@ for (var i = 0, n = aReplicaNodes.length; i < n; i += 1) {
 
 function removeSlave(masterId, ip) {
     var cmd = [
-            "curl -fsSL \"${baseUrl}scripts/removeSlave.sh\" -o /tmp/removeSlave.sh",
-            "/bin/bash /tmp/removeSlave.sh " + ip + ":27017"
+            "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh",
+            "/bin/bash /tmp/replicaSet.sh removeSlave " + ip + ":27017"
         ];
 
     return exec(masterId, cmd);
@@ -55,8 +55,8 @@ function isPrimary(nodeId) {
     var cmd;
   
     cmd = [
-        "curl -fsSL \"${baseUrl}scripts/isMaster.sh\" -o /tmp/checkMaster.sh", 
-        "/bin/bash /tmp/checkMaster.sh | grep ismaster | cut -c 15- | rev | cut -c 2- | rev"
+        "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh", 
+        "/bin/bash /tmp/replicaSet.sh isMaster | grep ismaster | cut -c 15- | rev | cut -c 2- | rev"
     ];
 
     oResp = exec(nodeId, cmd);
@@ -78,8 +78,8 @@ function getReplicaAddresses() {
         aIps = [];
     
     cmd = [
-        "curl -fsSL \"${baseUrl}scripts/getStatus.sh\" -o /tmp/getStatus.sh",
-        "bash /tmp/getStatus.sh | grep name"
+        "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh",
+        "bash /tmp/replicaSet.sh getStatus | grep name"
     ];
 
     oResp = exec(${nodes.nosqldb[0].id}, cmd);

@@ -14,6 +14,10 @@ if [ "$MASTER_IP_ADDRESS" != "$FIRST_NODE_ADDRESS" ]; then
     SECOND_NODE_ADDRESS=$FIRST_NODE_ADDRESS;
 fi
 
+if [ -z "${PRIORITY}" ]; then
+    PRIORITY=0;
+fi
+
 function initiate(){
 mongo << EOF
 rs.initiate({
@@ -38,9 +42,9 @@ addArbiter
 function addSlave(){
 mongo << EOF
     rs.add({
-        host: "${2}",
-        priority: ${3},
-        votes:${3}
+        host: "${SECOND_NODE_ADDRESS}",
+        priority: ${PRIORITY},
+        votes:${PRIORITY}
     })
 EOF
 }

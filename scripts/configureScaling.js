@@ -22,8 +22,8 @@ function addSlave(masterNodeId, newNodeIp) {
     }
     
     cmd = [
-        "curl -fsSL \"${baseUrl}scripts/addSlave.sh\" -o /tmp/addSlave.sh",
-        "/bin/bash /tmp/addSlave.sh " + newIpAddress + " " + priority
+        "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh",
+        "/bin/bash /tmp/replicaSet.sh addSlave " + newIpAddress + " " + priority
     ];
 
     return exec(masterNodeId, cmd);

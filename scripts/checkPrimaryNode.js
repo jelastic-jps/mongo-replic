@@ -32,8 +32,8 @@ function isPrimary(nodeId) {
 	aCmdResp;
   
     cmd = [
-        "curl -fsSL \"${baseUrl}scripts/isMaster.sh\" -o /tmp/checkMaster.sh", 
-        "/bin/bash /tmp/checkMaster.sh | grep ismaster | cut -c 15- | rev | cut -c 2- | rev && /bin/bash /tmp/checkMaster.sh | grep secondary | cut -c 16- | rev | cut -c 2- | rev"
+        "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh", 
+        "/bin/bash /tmp/replicaSet.sh isMaster | grep ismaster | cut -c 15- | rev | cut -c 2- | rev && /bin/bash /tmp/checkMaster.sh | grep secondary | cut -c 16- | rev | cut -c 2- | rev"
     ];
 
     oResp = exec(nodeId, cmd);

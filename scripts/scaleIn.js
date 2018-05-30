@@ -83,6 +83,7 @@ function getReplicaAddresses() {
     ];
 
     oResp = exec(${nodes.nosqldb[0].id}, cmd);
+    jelastic.marketplace.console.WriteLog(122);
     jelastic.marketplace.console.WriteLog(1 + oResp);
     if (!oResp || oResp.result != 0) {
         return oResp;

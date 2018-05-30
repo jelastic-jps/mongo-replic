@@ -32,6 +32,8 @@ aReplicaNodes = aReplicaNodes.filter(function(n){
     return n != undefined 
 }); 
 
+
+jelastic.marketplace.console.WriteLog(556);
 for (var i = 0, n = aReplicaNodes.length; i < n; i += 1) {
     var oResp;
 
@@ -88,8 +90,6 @@ function getReplicaAddresses() {
     if (!oResp || oResp.result != 0) {
         return oResp;
     }
-    
-    jelastic.marketplace.console.WriteLog(55);
     
     aIps = oResp.responses[0].out.replace(/.*\"name\" : \"/g, "");
     aIps = aIps.replace(/:27017/g, "");

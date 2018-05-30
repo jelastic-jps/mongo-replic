@@ -89,6 +89,8 @@ function getReplicaAddresses() {
         return oResp;
     }
     
+    jelastic.marketplace.console.WriteLog(33);
+    
     aIps = oResp.responses[0].out.replace(/.*\"name\" : \"/g, "");
     aIps = aIps.replace(/:27017/g, "");
     aIps = aIps.replace(/\n/g, "").slice(0, -2);

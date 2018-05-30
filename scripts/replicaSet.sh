@@ -7,6 +7,7 @@ SECOND_NODE_ADDRESS=${4}
 ARBITER_NODE_ADDRESS=${5}
 ADD_SLAVE_HOST=${6}
 PRIORITY=${7}
+REMOVE_SLAVE=${8}
 PORT=27017
 
 if [ "$MASTER_IP_ADDRESS" != "$FIRST_NODE_ADDRESS" ]; then
@@ -63,7 +64,7 @@ EOF
 
 function removeSlave() {
 mongo << EOF
-    rs.remove("${MASTER_IP_ADDRESS}")
+    rs.remove("${REMOVE_SLAVE}")
 EOF
 }
 

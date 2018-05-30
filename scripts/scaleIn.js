@@ -102,4 +102,7 @@ function exec(nodeid, cmd) {
     }]));
 }
 
-return oResp;
+return {
+    result: 0,
+    response: oResp
+};

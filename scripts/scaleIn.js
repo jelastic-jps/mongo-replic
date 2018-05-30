@@ -78,12 +78,12 @@ function getReplicaAddresses() {
         aIps = [];
     
     cmd = [
-        //"curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh",
+        "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh",
         "/bin/bash -x /tmp/replicaSet.sh getStatus | grep name"
     ];
 
     oResp = exec(${nodes.nosqldb[0].id}, cmd);
-    
+    jelastic.marketplace.console.WriteLog(1 + oResp);
     if (!oResp || oResp.result != 0) {
         return oResp;
     }
@@ -104,7 +104,6 @@ function exec(nodeid, cmd) {
     
     jelastic.marketplace.console.WriteLog(cmd);
     jelastic.marketplace.console.WriteLog(123);
-    jelastic.marketplace.console.WriteLog(oResp);
     
     return oResp;
 }

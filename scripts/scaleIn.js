@@ -103,6 +103,5 @@ function exec(nodeid, cmd) {
 }
 
 return {
-    result: 0,
-    response: oResp
+    result: 0
 };

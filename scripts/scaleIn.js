@@ -94,9 +94,15 @@ function getReplicaAddresses() {
 }
 
 function exec(nodeid, cmd) {
-    return jelastic.env.control.ExecCmdById(sTargetAppid, session, nodeid, toJSON([{
+    var oResp;
+    oResp =  jelastic.env.control.ExecCmdById(sTargetAppid, session, nodeid, toJSON([{
       "command": cmd.join("\n")
     }]));
+    	jelastic.marketplace.console.WriteLog(cmd);
+        jelastic.marketplace.console.WriteLog(oResp);
+        jelastic.marketplace.console.WriteLog("----");
+    
+    return oResp;
 }
 
 return {

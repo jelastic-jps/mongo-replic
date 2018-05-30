@@ -102,9 +102,9 @@ function exec(nodeid, cmd) {
       "command": cmd.join("\n")
     }]));
     
-    jelastic.marketplace.console.WriteLog(cmd);
+    //jelastic.marketplace.console.WriteLog(cmd);
     jelastic.marketplace.console.WriteLog(123);
-    //jelastic.marketplace.console.WriteLog(oResp);
+    jelastic.marketplace.console.WriteLog(oResp);
     
     return oResp;
 }

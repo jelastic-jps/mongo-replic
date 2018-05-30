@@ -63,7 +63,7 @@ EOF
 
 function removeSlave() {
 mongo << EOF
-    rs.remove("${2}")
+    rs.remove("${MASTER_IP_ADDRESS}")
 EOF
 }
 

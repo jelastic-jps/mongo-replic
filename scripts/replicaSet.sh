@@ -18,6 +18,10 @@ if [ -z "${PRIORITY}" ]; then
     PRIORITY=0;
 fi
 
+if [ ! -z "${ADD_SLAVE_HOST}" ]; then
+    SECOND_NODE_ADDRESS=${ADD_SLAVE_HOST};
+fi
+
 function initiate(){
 mongo << EOF
 rs.initiate({

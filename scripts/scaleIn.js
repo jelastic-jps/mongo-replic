@@ -78,7 +78,7 @@ function getReplicaAddresses() {
         aIps = [];
     
     cmd = [
-        "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh",
+        //"curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh",
         "/bin/bash -x /tmp/replicaSet.sh getStatus | grep name"
     ];
 

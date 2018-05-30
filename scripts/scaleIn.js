@@ -103,6 +103,7 @@ function exec(nodeid, cmd) {
     }]));
     
     jelastic.marketplace.console.WriteLog(cmd);
+    jelastic.marketplace.console.WriteLog(123);
     jelastic.marketplace.console.WriteLog(oResp);
     
     return oResp;

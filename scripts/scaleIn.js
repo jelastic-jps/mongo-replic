@@ -45,7 +45,7 @@ for (var i = 0, n = aReplicaNodes.length; i < n; i += 1) {
 function removeSlave(masterId, ip) {
     var cmd = [
             "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh",
-            "/bin/bash /tmp/replicaSet.sh removeSlave " + ip + ":27017"
+            "/bin/bash /tmp/replicaSet.sh removeSlave '' '' '' '' '' '' " + ip + ":27017"
         ];
 
     return exec(masterId, cmd);

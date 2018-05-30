@@ -32,18 +32,16 @@ aReplicaNodes = aReplicaNodes.filter(function(n){
     return n != undefined 
 }); 
 
-
-jelastic.marketplace.console.WriteLog(556);
 for (var i = 0, n = aReplicaNodes.length; i < n; i += 1) {
     var oResp;
 
     oResp = removeSlave(masterNodeId, aReplicaNodes[i]);
-    
+    jelastic.marketplace.console.WriteLog(oResp);
     if (!oResp || oResp.result != 0){
         return oResp;
     }
 }
-
+jelastic.marketplace.console.WriteLog(77);
 function removeSlave(masterId, ip) {
     var cmd = [
             "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh",

@@ -40,6 +40,8 @@ mongo << EOF
 EOF
 
 addSlave
+echo "${SECOND_NODE_ADDRESS}"
+echo ${SECOND_NODE_ADDRESS}
 addArbiter
 }
 

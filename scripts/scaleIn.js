@@ -79,7 +79,7 @@ function getReplicaAddresses() {
     
     cmd = [
         "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh",
-        "bash /tmp/replicaSet.sh getStatus | grep name"
+        "/bin/bash -x /tmp/replicaSet.sh getStatus | grep name"
     ];
 
     oResp = exec(${nodes.nosqldb[0].id}, cmd);

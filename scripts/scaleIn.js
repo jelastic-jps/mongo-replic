@@ -31,17 +31,16 @@ for (var i = 0, n = aReplicaNodes.length; i < n; i += 1) {
 aReplicaNodes = aReplicaNodes.filter(function(n){ 
     return n != undefined 
 }); 
-jelastic.marketplace.console.WriteLog("aReplicaNodes" + aReplicaNodes);
+
 for (var i = 0, n = aReplicaNodes.length; i < n; i += 1) {
     var oResp;
 
     oResp = removeSlave(masterNodeId, aReplicaNodes[i]);
-jelastic.marketplace.console.WriteLog(i + oResp); 
     if (!oResp || oResp.result != 0){
         return oResp;
     }
 }
-jelastic.marketplace.console.WriteLog(oResp);
+
 function removeSlave(masterId, ip) {
     var cmd = [
             "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh",
@@ -83,8 +82,6 @@ function getReplicaAddresses() {
     ];
 
     oResp = exec(${nodes.nosqldb[0].id}, cmd);
-    jelastic.marketplace.console.WriteLog(122);
-    jelastic.marketplace.console.WriteLog(1 + oResp);
     if (!oResp || oResp.result != 0) {
         return oResp;
     }

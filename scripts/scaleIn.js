@@ -44,7 +44,7 @@ for (var i = 0, n = aReplicaNodes.length; i < n; i += 1) {
 function removeSlave(masterId, ip) {
     var cmd = [
             "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh",
-            "/bin/bash /tmp/replicaSet.sh removeSlave '' '' '' '' '' '' " + ip + ":27017"
+            "/bin/bash /tmp/replicaSet.sh --exec=removeSlave --remove=" + ip + ":27017"
         ];
 
     return exec(masterId, cmd);
@@ -94,15 +94,9 @@ function getReplicaAddresses() {
 }
 
 function exec(nodeid, cmd) {
-    var oResp;
-    oResp =  jelastic.env.control.ExecCmdById(sTargetAppid, session, nodeid, toJSON([{
+    return jelastic.env.control.ExecCmdById(sTargetAppid, session, nodeid, toJSON([{
       "command": cmd.join("\n")
     }]));
-    	jelastic.marketplace.console.WriteLog(cmd);
-        jelastic.marketplace.console.WriteLog(oResp);
-        jelastic.marketplace.console.WriteLog("----");
-    
-    return oResp;
 }
 
 return {

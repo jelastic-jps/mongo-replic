@@ -6,7 +6,6 @@ baseUrl: https://raw.githubusercontent.com/dzotic9/mongo-replic/master/
 name: Scaling
 
 globals:
-  REPL_SET_NAME: rs0
   MONGO_LOG: /var/log/mongo-replic-install.log
 
 targetNodes:

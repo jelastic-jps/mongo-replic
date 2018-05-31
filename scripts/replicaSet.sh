@@ -1,13 +1,4 @@
 #!/bin/bash
-
-# EXEC_FUNCTION=${1}
-# MASTER_IP_ADDRESS=${2}
-# FIRST_NODE_ADDRESS=${3}
-# SECOND_NODE_ADDRESS=${4}
-# ARBITER_NODE_ADDRESS=${5}
-# ADD_SLAVE_HOST=${6}
-# PRIORITY=${7}
-# REMOVE_SLAVE=${8}
 PORT=27017
 
 for i in "$@"
@@ -56,8 +47,6 @@ mongo << EOF
 EOF
 
 addSlave
-echo "${SECOND_NODE_ADDRESS}"
-echo ${SECOND_NODE_ADDRESS}
 addArbiter
 }
 

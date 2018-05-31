@@ -41,7 +41,7 @@ function isPrimary(nodeId) {
     if (!oResp || oResp.result != 0){
         return oResp;
     }
-  
+  	jelastic.marketplace.console.WriteLog("oResp->" + oResp);
     if (oResp.responses) {
         oResp = oResp.responses[0];
 	    
@@ -49,7 +49,7 @@ function isPrimary(nodeId) {
 	    aCmdResp = oResp.out.replace(/\n/, ",").split(",");
 	}
     }
-	
+	jelastic.marketplace.console.WriteLog("aCmdResp->" + aCmdResp);
     if (aCmdResp[0] == "true" && aCmdResp[1] == "false") {
         return true;
     }

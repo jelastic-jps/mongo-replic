@@ -41,6 +41,7 @@ function isPrimary(nodeId) {
 
 	jelastic.marketplace.console.WriteLog("checkPrimaryNode - isPrimary - nodeId ->" + nodeId);
 	jelastic.marketplace.console.WriteLog("checkPrimaryNode - isPrimary - cmd ->" + cmd);
+	jelastic.marketplace.console.WriteLog("checkPrimaryNode - isPrimary - oResp ->" + oResp);
 	jelastic.marketplace.console.WriteLog("checkPrimaryNode - isPrimary - exec(nodeId, cmd) ->" + exec(nodeId, cmd));
 	jelastic.marketplace.console.WriteLog("checkPrimaryNode - isPrimary - exec(nodeId, cmd) ->" + exec(nodeId, cmd));
 	jelastic.marketplace.console.WriteLog("checkPrimaryNode - isPrimary - exec(nodeId, cmd) ->" + exec(nodeId, cmd));

@@ -1,14 +1,29 @@
 #!/bin/bash
 
-EXEC_FUNCTION=${1}
-MASTER_IP_ADDRESS=${2}
-FIRST_NODE_ADDRESS=${3}
-SECOND_NODE_ADDRESS=${4}
-ARBITER_NODE_ADDRESS=${5}
-ADD_SLAVE_HOST=${6}
-PRIORITY=${7}
-REMOVE_SLAVE=${8}
+# EXEC_FUNCTION=${1}
+# MASTER_IP_ADDRESS=${2}
+# FIRST_NODE_ADDRESS=${3}
+# SECOND_NODE_ADDRESS=${4}
+# ARBITER_NODE_ADDRESS=${5}
+# ADD_SLAVE_HOST=${6}
+# PRIORITY=${7}
+# REMOVE_SLAVE=${8}
 PORT=27017
+
+for i in "$@"
+do
+case $i in
+    -e=*|--exec=*) EXEC_FUNCTION="${i#*=}"; shift;;
+    -m=*|--master=*) MASTER_IP_ADDRESS="${i#*=}"; shift;;
+    -f=*|--first=*) FIRST_NODE_ADDRESS="${i#*=}"; shift;;
+    -s=*|--second=*) SECOND_NODE_ADDRESS="${i#*=}"; shift;;
+    -a=*|--arbitr=*) ARBITER_NODE_ADDRESS="${i#*=}"; shift;;
+    -as=*|--add=*) ADD_SLAVE_HOST="${i#*=}"; shift;;
+    -rs=*|--remove=*) REMOVE_SLAVE="${i#*=}"; shift;;
+    -p=*|--priority=*) PRIORITY="${i#*=}"; shift;;
+esac
+done
+
 
 if [ "$MASTER_IP_ADDRESS" != "$FIRST_NODE_ADDRESS" ]; then
     MASTER_IP_ADDRESS=$SECOND_NODE_ADDRESS;

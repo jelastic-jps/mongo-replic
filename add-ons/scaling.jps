@@ -3,8 +3,6 @@ name: Scaling
 
 baseUrl: https://raw.githubusercontent.com/dzotic9/mongo-replic/master/
 
-name: Scaling
-
 globals:
   MONGO_LOG: /var/log/mongo-replic-install.log
 

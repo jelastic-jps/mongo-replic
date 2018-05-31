@@ -32,7 +32,7 @@ fi
 function initiate(){
 mongo << EOF
 rs.initiate({
-  _id: "rs0",
+  _id: "${globals.REPL_SET_NAME}",
   members:[{
     _id : 0,
     host : "${MASTER_IP_ADDRESS}:${PORT}"

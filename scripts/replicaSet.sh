@@ -13,6 +13,7 @@ case $i in
     -rs=*|--remove=*) REMOVE_SLAVE="${i#*=}"; shift;;
     -p=*|--priority=*) PRIORITY="${i#*=}"; shift;;
     -id=*|--replSet=*) REPLSET_ID="${i#*=}"; shift;;
+    --config=*) RS_CONFIG="${i#*=}"; shift;;
 esac
 done
 
@@ -64,6 +65,12 @@ EOF
 function getConfig() {
 mongo << EOF
     rs.conf()
+EOF
+}
+
+function setConfig() {
+    mongo << EOF
+    rs.reconfig(RS_CONFIG, {force: true})
 EOF
 }
 

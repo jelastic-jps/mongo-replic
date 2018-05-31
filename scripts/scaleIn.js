@@ -52,6 +52,8 @@ function removeSlave(masterId, ip) {
             "/bin/bash /tmp/replicaSet.sh --exec=removeSlave --remove=" + ip + ":27017"
         ];
 
+    jelastic.marketplace.console.WriteLog("removeSlave - isPrimary(masterId) ->" + isPrimary(masterId));
+    
     return exec(masterId, cmd);
 }
 

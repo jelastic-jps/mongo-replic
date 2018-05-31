@@ -16,7 +16,7 @@ nodes:
 
 globals:
   ARBITER_PATH: /var/lib/mongo/arb
-  REPL_SET_NAME: rs0
+  REPL_SET_NAME: rs${fn.random}
   MONGO_LOG: "/var/log/mongo-replic-install.log"
 
 onInstall:

@@ -75,11 +75,10 @@ function reconfigureRespSet() {
     jelastic.marketplace.console.WriteLog("reconfigureRespSet -after match -  oConfig ->" + oConfig);
     oConfig = (oConfig.length > 0) ? oConfig[0] : oConfig;
     jelastic.marketplace.console.WriteLog("reconfigureRespSet -first element -  oConfig ->" + oConfig);
-    oConfigMembers = oConfig.members;
-    jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfig ->" + oConfig);
-    jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfig ->" + toJSON(oConfig));
-    oConfig = toJSON(oConfig);
+	jelastic.marketplace.console.WriteLog("reconfigureRespSet -toJSON oConfig ->" + toJSON(oConfig));
+    oConfigMembers = toJSON(oConfig).members;
     jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfigMembers ->" + oConfigMembers);
+
     for (i = 0, n = oConfig.members.length; i < n; i += 1) {
         sMemberHost = oConfig.members[i].host;
         jelastic.marketplace.console.WriteLog("reconfigureRespSet - sMemberHost ->" + sMemberHost);

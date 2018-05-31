@@ -61,6 +61,12 @@ mongo << EOF
 EOF
 }
 
+function getConfig() {
+mongo << EOF
+    rs.conf()
+EOF
+}
+
 function getStatus() {
 mongo << EOF
     rs.status()

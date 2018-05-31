@@ -74,6 +74,8 @@ function reconfigureRespSet() {
     oConfig = oConfig.responses[0].out;
     jelastic.marketplace.console.WriteLog("reconfigureRespSet -before match -  oConfig ->" + oConfig);
     oConfig = oConfig.match(/{[\s\tA-Za-z\n\w:,.()\[\]{}"]+}/g);
+    oConfig = oConfig.replace(/NumberLong\(.*\)/g, "\"$&\"");
+    oConfig = oConfig.replace(/ObjectId\(.*\)/g, "\"$&\"");
     jelastic.marketplace.console.WriteLog("reconfigureRespSet -after match -  oConfig ->" + oConfig);
     oConfig = (oConfig.length > 0) ? oConfig[0] : oConfig;
     jelastic.marketplace.console.WriteLog("reconfigureRespSet -first element -  oConfig ->" + oConfig);

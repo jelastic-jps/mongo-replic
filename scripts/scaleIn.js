@@ -152,26 +152,26 @@ function isPrimary(nodeId) {
     return false;
 }
 
-function oldIsPrimary(nodeId) {
-    var cmd;
+// function oldIsPrimary(nodeId) {
+//     var cmd;
   
-    cmd = [
-        "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh", 
-        "/bin/bash /tmp/replicaSet.sh --exec=isMaster | grep ismaster | cut -c 15- | rev | cut -c 2- | rev"
-    ];
+//     cmd = [
+//         "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh", 
+//         "/bin/bash /tmp/replicaSet.sh --exec=isMaster | grep ismaster | cut -c 15- | rev | cut -c 2- | rev"
+//     ];
 
-    oResp = exec(nodeId, cmd);
-    jelastic.marketplace.console.WriteLog("isPrimary oResp ->" + oResp);
-    if (!oResp || oResp.result != 0) {
-        return oResp;
-    }
+//     oResp = exec(nodeId, cmd);
+//     jelastic.marketplace.console.WriteLog("isPrimary oResp ->" + oResp);
+//     if (!oResp || oResp.result != 0) {
+//         return oResp;
+//     }
   
-    if (oResp.responses) {
-        oResp = oResp.responses[0];
-    }
+//     if (oResp.responses) {
+//         oResp = oResp.responses[0];
+//     }
     
-    return oResp.out;
-}
+//     return oResp.out;
+// }
 
 function getReplicaAddresses() {
     var cmd,

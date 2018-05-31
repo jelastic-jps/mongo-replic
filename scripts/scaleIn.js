@@ -73,6 +73,8 @@ function reconfigureRespSet() {
     
     oConfigMembers = oConfig.members;
     jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfig ->" + oConfig);
+    jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfig ->" + toJSON(oConfig));
+    oConfig = toJSON(oConfig);
     jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfigMembers ->" + oConfigMembers);
     for (i = 0, n = oConfig.members.length; i < n; i += 1) {
         sMemberHost = oConfig.members[i].host;
@@ -101,7 +103,7 @@ function setNewConfig(oConfig) {
         "/bin/bash /tmp/replicaSet.sh --exec=setConfig --config=" + oConfig
     ];
     
-    return toJSON(masterNodeId, cmd));
+    return exec(masterNodeId, cmd);
 }
 
 function getRsConfig() {
@@ -110,7 +112,7 @@ function getRsConfig() {
         "/bin/bash /tmp/replicaSet.sh --exec=getConfig"
     ];
     
-    return toJSON(masterNodeId, cmd))
+    return exec(masterNodeId, cmd);
 }
 
 function isPrimary(nodeId) {

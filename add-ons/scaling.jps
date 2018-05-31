@@ -9,7 +9,7 @@ globals:
 targetNodes:
   nodeGroup: nosqldb
 
-onBeforeScaleIn [nosqldb]:
+onAfterScaleIn [nosqldb]:
   script: ${baseUrl}scripts/checkPrimaryNode.js?_r=${fn.random}
   nosqldbNodeGroup: nosqldb
   next: scaleIn

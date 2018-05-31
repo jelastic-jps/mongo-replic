@@ -32,13 +32,15 @@ aReplicaNodes = aReplicaNodes.filter(function(n){
     return n != undefined 
 }); 
 
-jelastic.marketplace.console.WriteLog("aReplicaNodes ->" + aReplicaNodes);
+jelastic.marketplace.console.WriteLog("aReplicaNodes filtered ->" + aReplicaNodes);
 
 for (var i = 0, n = aReplicaNodes.length; i < n; i += 1) {
     var oResp;
-
+    
+    jelastic.marketplace.console.WriteLog("removeSlave - masterNodeId ->" + masterNodeId);
+    jelastic.marketplace.console.WriteLog("removeSlave - aReplicaNodes[i] ->" + aReplicaNodes[i]);
     oResp = removeSlave(masterNodeId, aReplicaNodes[i]);
-    jelastic.marketplace.console.WriteLog("removeSlave ->" + oResp);
+    jelastic.marketplace.console.WriteLog("removeSlave - oResp ->" + oResp);
     if (!oResp || oResp.result != 0){
         return oResp;
     }

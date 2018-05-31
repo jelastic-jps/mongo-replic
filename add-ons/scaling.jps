@@ -31,7 +31,7 @@ actions:
   scaleoutNodes:
   - forEach (event.response.nodes):
     - cmd [${@i.id}]:
-      - 'sed -i "s|#replication:|replication:\n  replSetName: ${globals.REPL_SET_NAME}|g" /etc/mongod.conf;
+      - 'sed -i "s|#replication:|replication:\n  replSetName: ${settings.REPL_SET_NAME}|g" /etc/mongod.conf;
         sed -i "s|authorization: enabled|authorization: disabled|g" /etc/mongod.conf'
       user: root
     - restartNodes [${@i.id}]

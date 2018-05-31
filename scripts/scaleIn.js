@@ -55,7 +55,7 @@ function isPrimary(nodeId) {
   
     cmd = [
         "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh", 
-        "/bin/bash /tmp/replicaSet.sh isMaster | grep ismaster | cut -c 15- | rev | cut -c 2- | rev"
+        "/bin/bash /tmp/replicaSet.sh --exec=isMaster | grep ismaster | cut -c 15- | rev | cut -c 2- | rev"
     ];
 
     oResp = exec(nodeId, cmd);
@@ -78,7 +78,7 @@ function getReplicaAddresses() {
     
     cmd = [
         "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh",
-        "/bin/bash -x /tmp/replicaSet.sh getStatus | grep name"
+        "/bin/bash -x /tmp/replicaSet.sh --exec=getStatus | grep name"
     ];
 
     oResp = exec(${nodes.nosqldb[0].id}, cmd);

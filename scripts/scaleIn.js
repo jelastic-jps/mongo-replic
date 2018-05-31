@@ -152,7 +152,7 @@ function isPrimary(nodeId) {
     return false;
 }
 
-function old-isPrimary(nodeId) {
+function oldisPrimary(nodeId) {
     var cmd;
   
     cmd = [

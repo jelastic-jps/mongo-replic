@@ -12,6 +12,7 @@ case $i in
     -as=*|--add=*) ADD_SLAVE_HOST="${i#*=}"; shift;;
     -rs=*|--remove=*) REMOVE_SLAVE="${i#*=}"; shift;;
     -p=*|--priority=*) PRIORITY="${i#*=}"; shift;;
+    -id=*|--replSet=*) REPLSET_ID="${i#*=}"; shift;;
 esac
 done
 
@@ -32,7 +33,7 @@ fi
 function initiate(){
 mongo << EOF
 rs.initiate({
-  _id: "${globals.REPL_SET_NAME}",
+  _id: "${REPLSET_ID}",
   members:[{
     _id : 0,
     host : "${MASTER_IP_ADDRESS}:${PORT}"

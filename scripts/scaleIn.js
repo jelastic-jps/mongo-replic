@@ -39,6 +39,7 @@ for (var i = 0, n = aReplicaNodes.length; i < n; i += 1) {
     
     jelastic.marketplace.console.WriteLog("removeSlave - masterNodeId ->" + masterNodeId);
     jelastic.marketplace.console.WriteLog("removeSlave - aReplicaNodes[i] ->" + aReplicaNodes[i]);
+	
     oResp = removeSlave(masterNodeId, aReplicaNodes[i]);
     jelastic.marketplace.console.WriteLog("removeSlave - oResp ->" + oResp);
     if (!oResp || oResp.result != 0){
@@ -66,9 +67,9 @@ function reconfigureRespSet() {
         aAvailableMembers = [],
         oConfigMembers,
         sMemberHost,
+	oResp,
         i,
         n;
-    
     
     oConfigMembers = oConfig.members;
     jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfig ->" + oConfig);
@@ -83,6 +84,24 @@ function reconfigureRespSet() {
         
         jelastic.marketplace.console.WriteLog("reconfigureRespSet - aAvailableMembers ->" + aAvailableMembers);
     }
+	
+    if (aAvailableMembers.length > 0) {
+	    oConfig.members = aAvailableMembers;
+        oResp = setNewConfig(oConfig);
+        jelastic.marketplace.console.WriteLog("reconfigureRespSet - oResp ->" + oResp);
+        return oResp;
+    }
+	
+    return false;
+}
+
+function setNewConfig(oConfig) {
+    var cmd = [
+        "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh",
+        "/bin/bash /tmp/replicaSet.sh --exec=setConfig --config=" + oConfig
+    ];
+    
+    return toJSON(masterNodeId, cmd))
 }
 
 function getRsConfig() {
@@ -91,7 +110,7 @@ function getRsConfig() {
         "/bin/bash /tmp/replicaSet.sh --exec=getConfig"
     ];
     
-    return toJSON(sterId, cmd))
+    return toJSON(masterNodeId, cmd))
 }
 
 function isPrimary(nodeId) {

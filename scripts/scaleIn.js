@@ -54,10 +54,84 @@ function removeSlave(masterId, ip) {
 
     jelastic.marketplace.console.WriteLog("removeSlave - isPrimary(masterId) ->" + isPrimary(masterId));
     
+    if (!isPrimary(masterId)) {
+        oResp = reconfigureRespSet();
+    }
+    
     return exec(masterId, cmd);
 }
 
+function reconfigureRespSet() {
+    var oConfig = getRsConfig(),
+        aAvailableMembers = [],
+        oConfigMembers,
+        sMemberHost,
+        i,
+        n;
+    
+    
+    oConfigMembers = oConfig.members;
+    jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfig ->" + oConfig);
+    jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfigMembers ->" + oConfigMembers);
+    for (i = 0, n = oConfig.members.length; i < n; i += 1) {
+        sMemberHost = oConfig.members[i].host;
+        jelastic.marketplace.console.WriteLog("reconfigureRespSet - sMemberHost ->" + sMemberHost);
+        sMemberHost = sMemberHost.replace(':27017', '');
+        if (aReplicaNodes.indexof(sMemberHost) == -1) {
+            aAvailableMembers.push(oConfig.members[i]);
+        }
+        
+        jelastic.marketplace.console.WriteLog("reconfigureRespSet - aAvailableMembers ->" + aAvailableMembers);
+    }
+}
+
+function getRsConfig() {
+    var cmd = [
+        "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh",
+        "/bin/bash /tmp/replicaSet.sh --exec=getConfig"
+    ];
+    
+    return toJSON(sterId, cmd))
+}
+
 function isPrimary(nodeId) {
+    var cmd,
+	aCmdResp;
+  
+    cmd = [
+        "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh", 
+        "/bin/bash /tmp/replicaSet.sh --exec=isMaster | grep ismaster | cut -c 15- | rev | cut -c 2- | rev && /bin/bash /tmp/replicaSet.sh --exec=isMaster | grep secondary | cut -c 16- | rev | cut -c 2- | rev"
+    ];
+
+    oResp = exec(nodeId, cmd);
+
+	jelastic.marketplace.console.WriteLog("checkPrimaryNode - isPrimary - nodeId ->" + nodeId);
+	jelastic.marketplace.console.WriteLog("checkPrimaryNode - isPrimary - cmd ->" + cmd);
+	jelastic.marketplace.console.WriteLog("checkPrimaryNode - isPrimary - oResp ->" + oResp);
+	jelastic.marketplace.console.WriteLog("checkPrimaryNode - isPrimary - exec(nodeId, cmd) ->" + exec(nodeId, cmd));
+	jelastic.marketplace.console.WriteLog("checkPrimaryNode - isPrimary - exec(nodeId, cmd) ->" + exec(nodeId, cmd));
+	jelastic.marketplace.console.WriteLog("checkPrimaryNode - isPrimary - exec(nodeId, cmd) ->" + exec(nodeId, cmd));
+    if (!oResp || oResp.result != 0){
+        return oResp;
+    }
+	jelastic.marketplace.console.WriteLog("isPrimary - nodeId->" + nodeId);
+  	jelastic.marketplace.console.WriteLog("isPrimary - oResp->" + oResp);
+    if (oResp.responses) {
+        oResp = oResp.responses[0];
+	    
+	if (oResp.out) {
+	    aCmdResp = oResp.out.replace(/\n/, ",").split(",");
+	}
+    }
+	jelastic.marketplace.console.WriteLog("isPrimary - aCmdResp->" + aCmdResp);
+    if (aCmdResp[0] == "true" && aCmdResp[1] == "false") {
+        return true;
+    }
+    
+    return false;
+}
+
+function old-isPrimary(nodeId) {
     var cmd;
   
     cmd = [

@@ -14,8 +14,8 @@ for (i = 0, n = oNodes.length; i < n; i += 1) {
         result: 0,
         onAfterReturn: []
       };
-//       obj = {}; obj[next] = {masterNodeId: oNodes[i].id}
-//       oResp.onAfterReturn.push(obj);
+      obj = {}; obj[next] = {masterNodeId: oNodes[i].id}
+      oResp.onAfterReturn.push(obj);
 	      jelastic.marketplace.console.WriteLog("checkPrimaryNode - oNodes[i].id ->" + oNodes[i].id);
       	jelastic.marketplace.console.WriteLog("checkPrimaryNode - oResp ->" + oResp);
       return oResp;

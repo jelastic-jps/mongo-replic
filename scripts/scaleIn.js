@@ -64,7 +64,7 @@ function isPrimary(nodeId) {
     ];
 
     oResp = exec(nodeId, cmd);
-    
+    jelastic.marketplace.console.WriteLog("isPrimary oResp ->" + oResp);
     if (!oResp || oResp.result != 0) {
         return oResp;
     }

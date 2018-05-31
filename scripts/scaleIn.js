@@ -101,7 +101,7 @@ function setNewConfig(oConfig) {
         "/bin/bash /tmp/replicaSet.sh --exec=setConfig --config=" + oConfig
     ];
     
-    return toJSON(masterNodeId, cmd))
+    return toJSON(masterNodeId, cmd));
 }
 
 function getRsConfig() {

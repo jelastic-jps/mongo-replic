@@ -36,9 +36,6 @@ aReplicaNodes = aReplicaNodes.filter(function(n){
     return n != undefined 
 }); 
 
-jelastic.marketplace.console.WriteLog("aReplicaNodes filtered ->" + aReplicaNodes);
-jelastic.marketplace.console.WriteLog("aReplicaNodes typeof  ->" + typeof aReplicaNodes);
-
 for (var i = 0, n = aReplicaNodes.length; i < n; i += 1) {
     var oResp;
     
@@ -207,7 +204,7 @@ function getReplicaAddresses() {
     aIps = oResp.responses[0].out.replace(/.*\"name\" : \"/g, "");
     aIps = aIps.replace(/:27017/g, "");
     aIps = aIps.replace(/\n/g, "").slice(0, -2);
-    
+    jelastic.marketplace.console.WriteLog("getReplicaAddresses typeof aIps ->" + typeof aIps);
     return aIps.split("\",");
 }
 

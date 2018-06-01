@@ -202,6 +202,7 @@ function getReplicaAddresses() {
     }
     
     aIps = oResp.responses[0].out.replace(/.*\"name\" : \"/g, "");
+	jelastic.marketplace.console.WriteLog("getReplicaAddresses after .out.replace aIps ->" + aIps);
     aIps = aIps.replace(/:27017/g, "");
     aIps = aIps.replace(/\n/g, "").slice(0, -2);
     jelastic.marketplace.console.WriteLog("getReplicaAddresses typeof aIps ->" + typeof aIps);

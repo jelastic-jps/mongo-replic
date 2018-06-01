@@ -57,7 +57,7 @@ function removeSlave(masterId, ip) {
 
     jelastic.marketplace.console.WriteLog("removeSlave - isPrimary(masterId) ->" + isPrimary(masterId));
     
-    if (isPrimary(masterId)) { //should be if (!isPrimary(masterId)) {
+    if (!isPrimary(masterId)) { //should be if (!isPrimary(masterId)) {
         oResp = reconfigureRespSet();
     }
     

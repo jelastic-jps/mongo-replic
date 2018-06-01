@@ -67,6 +67,7 @@ function reconfigureRespSet() {
         aAvailableMembers = [],
         oConfigMembers,
         sMemberHost,
+	sTmpStr,
 	oResp,
         i,
         n;
@@ -75,10 +76,9 @@ function reconfigureRespSet() {
     oConfig = oConfig.replace(/NumberLong\(.*\)/g, "\"$&\"");
 	oConfig.replace(/ObjectId\(\"[0-9]\"\)/g, "");
     //oConfig = oConfig.replace(/ObjectId\(.*\)/g, "\\\"$&\\\"");
-	jelastic.marketplace.console.WriteLog("reconfigureRespSet -1111 -  oConfig ->" + oConfig.replace(/ObjectId\(.*\)/g, "\\\"$&\\\""));
-	jelastic.marketplace.console.WriteLog("reconfigureRespSet -2222 -  oConfig ->" + oConfig.replace(/ObjectId\(.*\)/g, "\\\"$&\\\"").replace(/[0-9a-z]{20,25}/, '\\\"$&\\\"'));
-	oConfig = oConfig.replace(/ObjectId\(.*\)/g, "\\\"$&\\\"").replace(/[0-9a-z]{20,25}/, '\\\"$&\\\"');
-	
+	//sTmpStr = oConfig.match(/(ObjectId\()(\".*\")\)/)[2].replace(/\"/g, '\\\"');
+	oConfig = oConfig.replace(/(ObjectId\()(\")([A-Za-z0-9]+)(\")/, '$1\\\$23$3\\\$4');
+	jelastic.marketplace.console.WriteLog("reconfigureRespSet -after replace -  oConfig ->" + oConfig);
     oConfig = oConfig.match(/{[\s\tA-Za-z\n\w:,.()\[\]{}"]+}/g);
     jelastic.marketplace.console.WriteLog("reconfigureRespSet -after match -  oConfig ->" + oConfig);
     oConfig = (oConfig.length > 0) ? oConfig[0] : oConfig;

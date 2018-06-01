@@ -1,6 +1,6 @@
 //masterNodeId, nodeGroup
 
-import com.hivext.api.Response;
+import org.json.JSONObject;
 
 var ARBITER_GROUP = "arb",
     sTargetAppid = getParam("TARGET_APPID"),

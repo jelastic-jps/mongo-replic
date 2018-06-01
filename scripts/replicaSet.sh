@@ -69,7 +69,8 @@ EOF
 }
 
 function setConfig() {
-    mongo << EOF
+echo $RS_CONFIG;
+mongo << EOF
     rs.reconfig(RS_CONFIG, {force: true})
 EOF
 }

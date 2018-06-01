@@ -87,10 +87,11 @@ function reconfigureRespSet() {
     oConfig = toNative(new JSONObject((oConfig)));
 
 	jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfig ->" + oConfig);
-    jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfig members ->" + oConfig.members);
+    
     oConfigMembers = oConfig.members;
-    jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfigMembers ->" + oConfigMembers);
+    
 	jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfigMembers[0] ->" + oConfigMembers[0]);
+	jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfigMembers[0].host ->" + oConfigMembers[0].host);
 
     for (i = 0, n = oConfigMembers.length; i < n; i += 1) {
 	    oMember = toNative(new JSONObject(oConfigMembers[i]));

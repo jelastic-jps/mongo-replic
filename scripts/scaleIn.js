@@ -70,6 +70,7 @@ function reconfigureRespSet() {
         aAvailableMembers = [],
         oConfigMembers,
         sMemberHost,
+	oMember,
 	sTmpStr,
 	oResp,
         i,
@@ -90,12 +91,14 @@ function reconfigureRespSet() {
     oConfigMembers = oConfig.members;
     jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfigMembers ->" + oConfigMembers);
 
-    for (i = 0, n = oConfig.members.length; i < n; i += 1) {
-        sMemberHost = oConfig.members[i].host;
+    for (i = 0, n = oConfigMembers.length; i < n; i += 1) {
+	    oMember = toNative(new JSONObject(oConfigMembers[i]));
+        sMemberHost = oMember.host;
+	    jelastic.marketplace.console.WriteLog("reconfigureRespSet - sMemberHost ->" + sMemberHost);
         jelastic.marketplace.console.WriteLog("reconfigureRespSet - sMemberHost ->" + sMemberHost);
         sMemberHost = sMemberHost.replace(':27017', '');
         if (aReplicaNodes.indexof(sMemberHost) == -1) {
-            aAvailableMembers.push(oConfig.members[i]);
+            aAvailableMembers.push(oMember);
         }
         
         jelastic.marketplace.console.WriteLog("reconfigureRespSet - aAvailableMembers ->" + aAvailableMembers);

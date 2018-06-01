@@ -1,6 +1,5 @@
 //masterNodeId, nodeGroup
 
-include_once com.hivext.scripting.utils.json2;
 import com.hivext.api.Response;
 
 var ARBITER_GROUP = "arb",

@@ -78,20 +78,12 @@ function reconfigureRespSet() {
     
     oConfig = oConfig.responses[0].out;
     oConfig = oConfig.replace(/NumberLong\(.*\)/g, "\"$&\"");
-	oConfig.replace(/ObjectId\(\"[0-9]\"\)/g, "");
-
+    oConfig.replace(/ObjectId\(\"[0-9]\"\)/g, "");
     oConfig = oConfig.replace(/(ObjectId\()(\")([A-Za-z0-9]+)(\")(\))/, '\"$1\\\$23$3\\\$4$5"');
     oConfig = oConfig.match(/{[\s\tA-Za-z\n\w:,.()\[\]{}\\"]+}/g);
     oConfig = (oConfig.length > 0) ? oConfig[0] : oConfig;
-	
     oConfig = toNative(new JSONObject((oConfig)));
-
-	jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfig ->" + oConfig);
-    
     oConfigMembers = oConfig.members;
-    
-	jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfigMembers[0] ->" + oConfigMembers[0]);
-	jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfigMembers[0].host ->" + oConfigMembers[0].host);
 
     for (i = 0, n = oConfigMembers.length; i < n; i += 1) {
 	    oMember = oConfigMembers[i];
@@ -99,7 +91,7 @@ function reconfigureRespSet() {
         sMemberHost = oMember.host;
 	    jelastic.marketplace.console.WriteLog("reconfigureRespSet - sMemberHost ->" + sMemberHost);
         jelastic.marketplace.console.WriteLog("reconfigureRespSet - sMemberHost ->" + sMemberHost);
-        sMemberHost = sMemberHost.replace(':27017', '');
+        sMemberHost = String(sMemberHost).replace(':27017', '');
         if (aReplicaNodes.indexof(sMemberHost) == -1) {
             aAvailableMembers.push(oMember);
         }

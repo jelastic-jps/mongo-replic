@@ -31,19 +31,20 @@ for (var i = 0, n = aReplicaNodes.length; i < n; i += 1) {
         delete aReplicaNodes[i];
     }
 }
-jelastic.marketplace.console.WriteLog("aReplicaNodes before filtered typeof  ->" + typeof aReplicaNodes);
+
 aReplicaNodes = aReplicaNodes.filter(function(n){ 
     return n != undefined 
 }); 
 
 for (var i = 0, n = aReplicaNodes.length; i < n; i += 1) {
     var oResp;
-    
-    jelastic.marketplace.console.WriteLog("removeSlave - masterNodeId ->" + masterNodeId);
-    jelastic.marketplace.console.WriteLog("removeSlave - aReplicaNodes[i] ->" + aReplicaNodes[i]);
-	
+
     oResp = removeSlave(masterNodeId, aReplicaNodes[i]);
-    jelastic.marketplace.console.WriteLog("removeSlave - oResp ->" + oResp);
+jelastic.marketplace.console.WriteLog("removeSlave - oResp ->" + oResp);	
+    if (oResp.reconfigured) {
+    	return oResp;
+    }
+    
     if (!oResp || oResp.result != 0){
         return oResp;
     }
@@ -57,8 +58,14 @@ function removeSlave(masterId, ip) {
 
     jelastic.marketplace.console.WriteLog("removeSlave - isPrimary(masterId) ->" + isPrimary(masterId));
     
-    if (!isPrimary(masterId)) { //should be if (!isPrimary(masterId)) {
-        oResp = reconfigureRespSet();
+    if (!isPrimary(masterId)) {
+	oResp = reconfigureRespSet();
+	    
+        return {
+	    result : 0,
+	    reconfigured: true,
+	    response: oResp
+	}
     }
     
     return exec(masterId, cmd);
@@ -77,7 +84,6 @@ function reconfigureRespSet() {
     
     oConfig = oConfig.responses[0].out;
     oConfig = oConfig.replace(/NumberLong\(.*\)/g, "\"$&\"");
-    //oConfig.replace(/ObjectId\(\"[0-9]\"\)/g, "");
     oConfig = oConfig.replace(/(ObjectId\()(\")([A-Za-z0-9]+)(\")(\))/, '\"$1\\\$23$3\\\$4$5"');
     oConfig = oConfig.match(/{[\s\tA-Za-z\n\w:,.()\[\]{}\\"]+}/g);
     oConfig = (oConfig.length > 0) ? oConfig[0] : oConfig;
@@ -86,12 +92,8 @@ function reconfigureRespSet() {
 
     for (i = 0, n = oConfigMembers.length; i < n; i += 1) {
         oMember = oConfigMembers[i];
-	jelastic.marketplace.console.WriteLog("reconfigureRespSet - oMember ->" + oMember);
-        sMemberHost = oMember.host;
+        sMemberHost = oMember.host.replace(':27017', '');
 	jelastic.marketplace.console.WriteLog("reconfigureRespSet - sMemberHost ->" + sMemberHost);
-	jelastic.marketplace.console.WriteLog("reconfigureRespSet - aReplicaNodes ->" + aReplicaNodes);
-	    jelastic.marketplace.console.WriteLog("reconfigureRespSet - typeof  aReplicaNodes ->" + typeof aReplicaNodes);
-        sMemberHost = sMemberHost.replace(':27017', '');
 
         if (aReplicaNodes.indexOf(sMemberHost) == -1) {
             aAvailableMembers.push(oMember);
@@ -101,7 +103,6 @@ function reconfigureRespSet() {
     }
 	
     if (aAvailableMembers.length > 0) {
-	    //oConfig.members = aAvailableMembers;
         oResp = setNewConfig(aAvailableMembers);
         jelastic.marketplace.console.WriteLog("reconfigureRespSet - oResp ->" + oResp);
         return oResp;
@@ -114,9 +115,9 @@ function setNewConfig(oConfig) {
     var sConfig,
 	cmd;
 	
-	sConfig = String(oConfig).replace(/\"/g, "\\\"").replace(/(\\\")(NumberLong\(.\))(\\\")/g, '$2');
-	jelastic.marketplace.console.WriteLog("setNewConfig - sConfig ->" + sConfig);
-	cmd = [
+    sConfig = String(oConfig).replace(/\"/g, "\\\"").replace(/(\\\")(NumberLong\(.\))(\\\")/g, '$2');
+    jelastic.marketplace.console.WriteLog("setNewConfig - sConfig ->" + sConfig);
+    cmd = [
         "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh",
         "/bin/bash /tmp/replicaSet.sh --exec=setConfig --config=\"" + sConfig + "\""
     ];

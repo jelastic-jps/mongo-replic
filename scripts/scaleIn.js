@@ -72,7 +72,6 @@ function reconfigureRespSet() {
         n;
     
     oConfig = oConfig.responses[0].out;
-    jelastic.marketplace.console.WriteLog("reconfigureRespSet -before match -  oConfig ->" + oConfig);
     oConfig = oConfig.replace(/NumberLong\(.*\)/g, "\"$&\"");
 	oConfig.replace(/ObjectId\(\"[0-9]\"\)/g, "");
     oConfig = oConfig.replace(/ObjectId\(.*\)/g, "\\\"$&\\\"");

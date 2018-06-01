@@ -111,9 +111,14 @@ function reconfigureRespSet() {
 }
 
 function setNewConfig(oConfig) {
-    var cmd = [
+    var sConfig,
+	cmd;
+	
+	sConfig = String(oConfig);
+	
+	cmd = [
         "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh",
-        "/bin/bash /tmp/replicaSet.sh --exec=setConfig --config=" + oConfig
+        "/bin/bash /tmp/replicaSet.sh --exec=setConfig --config=\"" + sConfig + "\""
     ];
     jelastic.marketplace.console.WriteLog("setNewConfig - cmd ->" + cmd);
     return exec(masterNodeId, cmd);

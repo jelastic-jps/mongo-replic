@@ -115,7 +115,7 @@ function setNewConfig(oConfig) {
 	cmd;
 	
 	sConfig = String(oConfig).replace(/\"/, "\\\"");
-	
+	jelastic.marketplace.console.WriteLog("setNewConfig - sConfig ->" + sConfig);
 	cmd = [
         "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh",
         "/bin/bash /tmp/replicaSet.sh --exec=setConfig --config=\"" + sConfig + "\""

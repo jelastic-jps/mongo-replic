@@ -40,11 +40,11 @@ for (var i = 0, n = aReplicaNodes.length; i < n; i += 1) {
     var oResp;
 
     oResp = removeSlave(masterNodeId, aReplicaNodes[i]);
-jelastic.marketplace.console.WriteLog("removeSlave - oResp ->" + oResp);	
+
     if (oResp.reconfigured) {
     	return oResp;
     }
-    
+
     if (!oResp || oResp.result != 0){
         return oResp;
     }
@@ -55,8 +55,6 @@ function removeSlave(masterId, ip) {
             "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh",
             "/bin/bash /tmp/replicaSet.sh --exec=removeSlave --remove=" + ip + ":27017"
         ];
-
-    jelastic.marketplace.console.WriteLog("removeSlave - isPrimary(masterId) ->" + isPrimary(masterId));
     
     if (!isPrimary(masterId)) {
 	oResp = reconfigureRespSet();
@@ -93,19 +91,14 @@ function reconfigureRespSet() {
     for (i = 0, n = oConfigMembers.length; i < n; i += 1) {
         oMember = oConfigMembers[i];
         sMemberHost = oMember.host.replace(':27017', '');
-	jelastic.marketplace.console.WriteLog("reconfigureRespSet - sMemberHost ->" + sMemberHost);
 
         if (aReplicaNodes.indexOf(sMemberHost) == -1) {
             aAvailableMembers.push(oMember);
         }
-        
-        jelastic.marketplace.console.WriteLog("reconfigureRespSet - aAvailableMembers ->" + aAvailableMembers);
     }
 	
     if (aAvailableMembers.length > 0) {
-        oResp = setNewConfig(aAvailableMembers);
-        jelastic.marketplace.console.WriteLog("reconfigureRespSet - oResp ->" + oResp);
-        return oResp;
+        return setNewConfig(aAvailableMembers);
     }
 	
     return false;
@@ -116,12 +109,12 @@ function setNewConfig(oConfig) {
 	cmd;
 	
     sConfig = String(oConfig).replace(/\"/g, "\\\"").replace(/(\\\")(NumberLong\(.\))(\\\")/g, '$2');
-    jelastic.marketplace.console.WriteLog("setNewConfig - sConfig ->" + sConfig);
+
     cmd = [
         "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh",
         "/bin/bash /tmp/replicaSet.sh --exec=setConfig --config=\"" + sConfig + "\""
     ];
-    jelastic.marketplace.console.WriteLog("setNewConfig - cmd ->" + cmd);
+
     return exec(masterNodeId, cmd);
 }
 
@@ -145,17 +138,10 @@ function isPrimary(nodeId) {
 
     oResp = exec(nodeId, cmd);
 
-	jelastic.marketplace.console.WriteLog("checkPrimaryNode - isPrimary - nodeId ->" + nodeId);
-	jelastic.marketplace.console.WriteLog("checkPrimaryNode - isPrimary - cmd ->" + cmd);
-	jelastic.marketplace.console.WriteLog("checkPrimaryNode - isPrimary - oResp ->" + oResp);
-	jelastic.marketplace.console.WriteLog("checkPrimaryNode - isPrimary - exec(nodeId, cmd) ->" + exec(nodeId, cmd));
-	jelastic.marketplace.console.WriteLog("checkPrimaryNode - isPrimary - exec(nodeId, cmd) ->" + exec(nodeId, cmd));
-	jelastic.marketplace.console.WriteLog("checkPrimaryNode - isPrimary - exec(nodeId, cmd) ->" + exec(nodeId, cmd));
     if (!oResp || oResp.result != 0){
         return oResp;
     }
-	jelastic.marketplace.console.WriteLog("isPrimary - nodeId->" + nodeId);
-  	jelastic.marketplace.console.WriteLog("isPrimary - oResp->" + oResp);
+
     if (oResp.responses) {
         oResp = oResp.responses[0];
 	    
@@ -163,34 +149,13 @@ function isPrimary(nodeId) {
 	    aCmdResp = oResp.out.replace(/\n/, ",").split(",");
 	}
     }
-	jelastic.marketplace.console.WriteLog("isPrimary - aCmdResp->" + aCmdResp);
+
     if (aCmdResp[0] == "true" && aCmdResp[1] == "false") {
         return true;
     }
     
     return false;
 }
-
-// function oldIsPrimary(nodeId) {
-//     var cmd;
-  
-//     cmd = [
-//         "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh", 
-//         "/bin/bash /tmp/replicaSet.sh --exec=isMaster | grep ismaster | cut -c 15- | rev | cut -c 2- | rev"
-//     ];
-
-//     oResp = exec(nodeId, cmd);
-//     jelastic.marketplace.console.WriteLog("isPrimary oResp ->" + oResp);
-//     if (!oResp || oResp.result != 0) {
-//         return oResp;
-//     }
-  
-//     if (oResp.responses) {
-//         oResp = oResp.responses[0];
-//     }
-    
-//     return oResp.out;
-// }
 
 function getReplicaAddresses() {
     var cmd,

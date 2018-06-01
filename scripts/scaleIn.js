@@ -80,6 +80,7 @@ function reconfigureRespSet() {
     oConfig = oConfig.match(/{[\s\tA-Za-z\n\w:,.()\[\]{}\\"]+}/g);
     oConfig = (oConfig.length > 0) ? oConfig[0] : oConfig;
     oConfig = toJSON(oConfig);
+	jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfig ->" + oConfig);
     jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfig members ->" + oConfig.members);
     oConfigMembers = oConfig.members;
     jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfigMembers ->" + oConfigMembers);

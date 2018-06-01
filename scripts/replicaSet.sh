@@ -72,7 +72,7 @@ function setConfig() {
 echo $RS_CONFIG;
 mongo << EOF
     cfg=rs.conf();
-    cfg.members=$RS_CONFIG;
+    cfg.members=[$RS_CONFIG];
     rs.reconfig(cfg, {force: true})
 EOF
 }

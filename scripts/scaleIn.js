@@ -205,6 +205,7 @@ function getReplicaAddresses() {
     aIps = aIps.replace(/:27017/g, "");
     aIps = aIps.replace(/\n/g, "").slice(0, -2);
     jelastic.marketplace.console.WriteLog("getReplicaAddresses typeof aIps ->" + typeof aIps);
+	jelastic.marketplace.console.WriteLog("getReplicaAddresses aIps ->" + aIps);
 	jelastic.marketplace.console.WriteLog("getReplicaAddresses typeof aIps.split ->" + typeof aIps.split("\","));
     return aIps.split("\",");
 }

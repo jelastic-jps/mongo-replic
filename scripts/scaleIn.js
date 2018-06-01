@@ -90,7 +90,7 @@ function reconfigureRespSet() {
 	    jelastic.marketplace.console.WriteLog("reconfigureRespSet - oMember ->" + oMember);
         sMemberHost = oMember.host;
 	    jelastic.marketplace.console.WriteLog("reconfigureRespSet - sMemberHost ->" + sMemberHost);
-        jelastic.marketplace.console.WriteLog("reconfigureRespSet - sMemberHost ->" + sMemberHost);
+        jelastic.marketplace.console.WriteLog("reconfigureRespSet - typeof sMemberHost ->" + typeof sMemberHost);
         sMemberHost = String(sMemberHost).replace(':27017', '');
         if (aReplicaNodes.indexof(sMemberHost) == -1) {
             aAvailableMembers.push(oMember);

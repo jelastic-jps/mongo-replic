@@ -1,4 +1,8 @@
 //masterNodeId, nodeGroup
+
+include_once com.hivext.scripting.utils.json2;
+import com.hivext.api.Response;
+
 var ARBITER_GROUP = "arb",
     sTargetAppid = getParam("TARGET_APPID"),
     aNodes = jelastic.env.control.GetEnvInfo(sTargetAppid, session).nodes,

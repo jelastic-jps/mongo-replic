@@ -82,7 +82,9 @@ function reconfigureRespSet() {
     oConfig = oConfig.replace(/(ObjectId\()(\")([A-Za-z0-9]+)(\")(\))/, '\"$1\\\$23$3\\\$4$5"');
     oConfig = oConfig.match(/{[\s\tA-Za-z\n\w:,.()\[\]{}\\"]+}/g);
     oConfig = (oConfig.length > 0) ? oConfig[0] : oConfig;
-    oConfig = JSON.parse(oConfig);
+	
+    oConfig = toJSON(oConfig);
+
 	jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfig ->" + oConfig);
     jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfig members ->" + oConfig.members);
     oConfigMembers = oConfig.members;

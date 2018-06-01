@@ -77,7 +77,7 @@ function reconfigureRespSet() {
     
     oConfig = oConfig.responses[0].out;
     oConfig = oConfig.replace(/NumberLong\(.*\)/g, "\"$&\"");
-    oConfig.replace(/ObjectId\(\"[0-9]\"\)/g, "");
+    //oConfig.replace(/ObjectId\(\"[0-9]\"\)/g, "");
     oConfig = oConfig.replace(/(ObjectId\()(\")([A-Za-z0-9]+)(\")(\))/, '\"$1\\\$23$3\\\$4$5"');
     oConfig = oConfig.match(/{[\s\tA-Za-z\n\w:,.()\[\]{}\\"]+}/g);
     oConfig = (oConfig.length > 0) ? oConfig[0] : oConfig;
@@ -114,7 +114,7 @@ function setNewConfig(oConfig) {
     var sConfig,
 	cmd;
 	
-	sConfig = String(oConfig);
+	sConfig = String(oConfig).replace(/\"/, "\\\"");
 	
 	cmd = [
         "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh",

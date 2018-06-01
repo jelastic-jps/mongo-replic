@@ -115,7 +115,7 @@ function setNewConfig(oConfig) {
         "curl -fsSL \"${baseUrl}scripts/replicaSet.sh\" -o /tmp/replicaSet.sh",
         "/bin/bash /tmp/replicaSet.sh --exec=setConfig --config=" + oConfig
     ];
-    
+    jelastic.marketplace.console.WriteLog("setNewConfig - cmd ->" + cmd);
     return exec(masterNodeId, cmd);
 }
 

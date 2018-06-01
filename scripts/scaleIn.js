@@ -101,8 +101,8 @@ function reconfigureRespSet() {
     }
 	
     if (aAvailableMembers.length > 0) {
-	    oConfig.members = aAvailableMembers;
-        oResp = setNewConfig(oConfig);
+	    //oConfig.members = aAvailableMembers;
+        oResp = setNewConfig(aAvailableMembers);
         jelastic.marketplace.console.WriteLog("reconfigureRespSet - oResp ->" + oResp);
         return oResp;
     }

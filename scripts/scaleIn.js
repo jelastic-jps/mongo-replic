@@ -88,8 +88,9 @@ function reconfigureRespSet() {
 
 	jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfig ->" + oConfig);
     jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfig members ->" + oConfig.members);
-    oConfigMembers = toNative(new JSONObject((oConfig.members)));
+    oConfigMembers = oConfig.members;
     jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfigMembers ->" + oConfigMembers);
+	jelastic.marketplace.console.WriteLog("reconfigureRespSet - oConfigMembers[0] ->" + oConfigMembers[0]);
 
     for (i = 0, n = oConfigMembers.length; i < n; i += 1) {
 	    oMember = toNative(new JSONObject(oConfigMembers[i]));

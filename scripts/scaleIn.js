@@ -36,6 +36,7 @@ aReplicaNodes = aReplicaNodes.filter(function(n){
 }); 
 
 jelastic.marketplace.console.WriteLog("aReplicaNodes filtered ->" + aReplicaNodes);
+jelastic.marketplace.console.WriteLog("aReplicaNodes typeof  ->" + typeof aReplicaNodes);
 
 for (var i = 0, n = aReplicaNodes.length; i < n; i += 1) {
     var oResp;

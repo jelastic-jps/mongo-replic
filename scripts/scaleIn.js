@@ -31,6 +31,7 @@ for (var i = 0, n = aReplicaNodes.length; i < n; i += 1) {
         delete aReplicaNodes[i];
     }
 }
+jelastic.marketplace.console.WriteLog("aReplicaNodes before filtered typeof  ->" + typeof aReplicaNodes);
 aReplicaNodes = aReplicaNodes.filter(function(n){ 
     return n != undefined 
 }); 

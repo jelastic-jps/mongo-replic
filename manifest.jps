@@ -9,11 +9,6 @@ nodes:
     displayName: replSet
     count: 2
     cloudlets: 8
-    env:
-      ON_ENV_INSTALL: 
-        jps: ${baseUrl}add-ons/scaling.jps?_r=${fn.random}
-        settings:
-          REPL_SET_NAME: ${globals.REPL_SET_NAME}
   - nodeType: mongodb
     nodeGroup: arb
     displayName: Arbiter
@@ -43,5 +38,8 @@ onInstall:
       >>${globals.MONGO_LOG}
     - bash -x /tmp/replicaSet.sh --exec=initiate --master=${nodes.nosqldb.master.address} --first=${nodes.nosqldb[0].address} --second=${nodes.nosqldb[1].address}
       --arbitr=${nodes.arb.address} --priority=1 --replSet=${globals.REPL_SET_NAME} >> ${globals.MONGO_LOG}
+    - install [nosqldb]: ${baseUrl}add-ons/scaling.jps?_r=${fn.random}
+      settings:
+        REPL_SET_NAME: ${globals.REPL_SET_NAME}
 
 startPage: ${nodes.nosqldb[0].url}

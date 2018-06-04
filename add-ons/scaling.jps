@@ -4,6 +4,7 @@ name: Scaling
 baseUrl: https://raw.githubusercontent.com/dzotic9/mongo-replic/master/
 
 globals:
+  ARBITER_PATH: /var/lib/mongo/arb
   MONGO_LOG: /var/log/mongo-replic-install.log
 
 targetNodes:
@@ -19,7 +20,34 @@ onAfterScaleOut [nosqldb]:
   nosqldbNodeGroup: nosqldb
   next: scaleoutNodes
 
+onInstall:
+  - if (!nodes.proxy):
+      addNodes:
+        nodeType: mongodb
+        nodeGroup: arb
+        displayName: Arbiter
+        cloudlets: 4
+  - cmd [arb]:
+    - 'mkdir ${globals.ARBITER_PATH} && chown mongod:mongod ${globals.ARBITER_PATH};
+      sed -i "s|dbPath:.*|dbPath: ${globals.ARBITER_PATH}|g" /etc/mongod.conf'
+    user: root
+  - configureSlaves:
+      node: *
+  - restartNodes [nosqldb]    
+  - restartNodes [arb]
+
+  - cmd [${nodes.nosqldb.master.id}]:
+    - curl "${baseUrl}scripts/replicaSet.sh?_r=${fn.random}" -o /tmp/replicaSet.sh
+      >>${globals.MONGO_LOG}
+    - bash -x /tmp/replicaSet.sh --exec=initiate --master=${nodes.nosqldb.master.address} --first=${nodes.nosqldb[0].address} --second=${nodes.nosqldb[1].address}
+      --arbitr=${nodes.arb.address} --priority=1 --replSet=${globals.REPL_SET_NAME} >> ${globals.MONGO_LOG}
+
 actions:
+  configureSlaves:
+    - cmd [${this.id}]:
+      - 'sed -i "s|#replication:|replication:\n  replSetName: ${settings.REPL_SET_NAME}|g" /etc/mongod.conf;
+        sed -i "s|authorization: enabled|authorization: disabled|g" /etc/mongod.conf'
+      user: root
   scaleIn:
     script: ${baseUrl}scripts/scaleIn.js?_r=${fn.random}
     masterNodeId: ${this.masterNodeId}
@@ -27,10 +55,8 @@ actions:
 
   scaleoutNodes:
   - forEach (event.response.nodes):
-    - cmd [${@i.id}]:
-      - 'sed -i "s|#replication:|replication:\n  replSetName: ${settings.REPL_SET_NAME}|g" /etc/mongod.conf;
-        sed -i "s|authorization: enabled|authorization: disabled|g" /etc/mongod.conf'
-      user: root
+    - configureSlaves:
+        node: ${@i.id}
     - restartNodes [${@i.id}]
     - script: ${baseUrl}scripts/configureScaling.js?_r=${fn.random}
       newNodeIp: ${@i.address}

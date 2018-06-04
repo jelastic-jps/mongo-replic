@@ -1,7 +1,7 @@
 type: update
 name: Scaling
 
-baseUrl: https://raw.githubusercontent.com/dzotic9/mongo-replic/master/
+baseUrl: https://raw.githubusercontent.com/jelastic-jps/mongo-replic/master/
 
 globals:
   MONGO_LOG: /var/log/mongo-replic-install.log

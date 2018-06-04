@@ -36,8 +36,7 @@ onInstall:
   - cmd [${nodes.nosqldb.master.id}]:
     - curl "${baseUrl}scripts/replicaSet.sh?_r=${fn.random}" -o /tmp/replicaSet.sh
       >>${globals.MONGO_LOG}
-    - bash -x /tmp/replicaSet.sh --exec=initiate --master=${nodes.nosqldb.master.address} --first=${nodes.nosqldb[0].address} --second=${nodes.nosqldb[1].address}
-    --arbitr=${nodes.arb.address} --priority=1 --replSet=${globals.REPL_SET_NAME} >> ${globals.MONGO_LOG}
+    - bash -x /tmp/replicaSet.sh --exec=initiate --master=${nodes.nosqldb.master.address} --first=${nodes.nosqldb[0].address} --second=${nodes.nosqldb[1].address} --arbitr=${nodes.arb.address} --priority=1 --replSet=${globals.REPL_SET_NAME} >> ${globals.MONGO_LOG}
   - install [nosqldb]: ${baseUrl}add-ons/scaling.jps?_r=${fn.random}
 
 startPage: ${nodes.nosqldb[0].url}

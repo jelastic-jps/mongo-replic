@@ -43,11 +43,6 @@ onInstall:
       --arbitr=${nodes.arb.address} --priority=1 --replSet=${globals.REPL_SET_NAME} >> ${globals.MONGO_LOG}
 
 actions:
-  configureSlaves:
-    - cmd [${this.id}]:
-      - 'sed -i "s|#replication:|replication:\n  replSetName: ${settings.REPL_SET_NAME}|g" /etc/mongod.conf;
-        sed -i "s|authorization: enabled|authorization: disabled|g" /etc/mongod.conf'
-      user: root
   scaleIn:
     script: ${baseUrl}scripts/scaleIn.js?_r=${fn.random}
     masterNodeId: ${this.masterNodeId}
@@ -55,8 +50,10 @@ actions:
 
   scaleoutNodes:
   - forEach (event.response.nodes):
-    - configureSlaves:
-        node: ${@i.id}
+    - cmd [${@i.id}]:
+      - 'sed -i "s|#replication:|replication:\n  replSetName: ${settings.REPL_SET_NAME}|g" /etc/mongod.conf;
+        sed -i "s|authorization: enabled|authorization: disabled|g" /etc/mongod.conf'		
+    user: root
     - restartNodes [${@i.id}]
     - script: ${baseUrl}scripts/configureScaling.js?_r=${fn.random}
       newNodeIp: ${@i.address}
